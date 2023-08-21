@@ -1,15 +1,13 @@
 package org.softtech.internship.backend.login.model.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserRegisterDTO {
     private String username;
     private String password;
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

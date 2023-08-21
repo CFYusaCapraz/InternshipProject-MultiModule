@@ -10,8 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.softtech.internship.backend.login.model.user.User;
 import org.softtech.internship.backend.login.model.user.dto.UserLoginDTO;
+import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
 import org.softtech.internship.backend.login.repository.UserRepository;
 import org.softtech.internship.backend.login.util.HashHandler;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -124,4 +126,75 @@ public class UserServiceTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 
     }
+
+    @Test
+    @DisplayName("Successful registration test")
+    public void testSuccessfulRegistration() {
+        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        registerDTO.setUsername("testuser");
+        registerDTO.setPassword("testpassword");
+
+        ResponseEntity<?> response = userService.register(registerDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Existing user registration test")
+    public void testRegistrationWithExistingUser() {
+        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        registerDTO.setUsername("existinguser");
+        registerDTO.setPassword("testpassword");
+
+        when(userRepository.saveAndFlush(any())).thenThrow(DataIntegrityViolationException.class);
+
+        ResponseEntity<?> response = userService.register(registerDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Empty username registration test")
+    public void testRegistrationWithEmptyUsername() {
+        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        registerDTO.setUsername("");
+        registerDTO.setPassword("testpassword");
+
+        ResponseEntity<?> response = userService.register(registerDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Empty password registration test")
+    public void testRegistrationWithEmptyPassword() {
+        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        registerDTO.setUsername("testuser");
+        registerDTO.setPassword("");
+
+        ResponseEntity<?> response = userService.register(registerDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+
+    }
+
+    @Test
+    @DisplayName("Exception occurred while registration test")
+    public void testExceptionDuringRegistration() {
+        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        registerDTO.setUsername("testuser");
+        registerDTO.setPassword("testpassword");
+
+        when(userRepository.saveAndFlush(any())).thenThrow(RuntimeException.class);
+
+        ResponseEntity<?> response = userService.register(registerDTO);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
 }

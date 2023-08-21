@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="Datasource files and folder excluded">
-      <change afterPath="$PROJECT_DIR$/login-service/src/test/java/org/softtech/internship/backend/login/service/user/UserServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="User service login unit test implemented">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserLoginDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserRegisterDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login-service/src/test/java/org/softtech/internship/backend/login/service/user/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/test/java/org/softtech/internship/backend/login/service/user/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +182,7 @@
       <updated>1692368446836</updated>
       <workItem from="1692368447954" duration="5874000" />
       <workItem from="1692480219625" duration="1161000" />
-      <workItem from="1692598215362" duration="15827000" />
+      <workItem from="1692598215362" duration="18562000" />
     </task>
     <task id="LOCAL-00001" summary="Login service development started">
       <option name="closed" value="true" />
@@ -227,7 +224,15 @@
       <option name="project" value="LOCAL" />
       <updated>1692612025919</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="User service login unit test implemented">
+      <option name="closed" value="true" />
+      <created>1692628888640</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1692628888640</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +255,7 @@
     <MESSAGE value="Typo fixed" />
     <MESSAGE value="User services implemented for login microservice" />
     <MESSAGE value="Datasource files and folder excluded" />
-    <option name="LAST_COMMIT_MESSAGE" value="Datasource files and folder excluded" />
+    <MESSAGE value="User service login unit test implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="User service login unit test implemented" />
   </component>
 </project>
