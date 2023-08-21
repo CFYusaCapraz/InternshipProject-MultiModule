@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="Typo fixed">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/APIResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserLoginDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserRegisterDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/service/user/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/service/user/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/util/HashHandler.java" afterDir="false" />
+    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="User services implemented for login microservice">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +145,7 @@
       <updated>1692368446836</updated>
       <workItem from="1692368447954" duration="5874000" />
       <workItem from="1692480219625" duration="1161000" />
-      <workItem from="1692598215362" duration="7377000" />
+      <workItem from="1692598215362" duration="7638000" />
     </task>
     <task id="LOCAL-00001" summary="Login service development started">
       <option name="closed" value="true" />
@@ -181,7 +171,15 @@
       <option name="project" value="LOCAL" />
       <updated>1692608778227</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="User services implemented for login microservice">
+      <option name="closed" value="true" />
+      <created>1692611877837</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692611877837</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,6 +200,7 @@
     <MESSAGE value="Login service development started" />
     <MESSAGE value="Frame visibility changes in main method not inside the form constructor" />
     <MESSAGE value="Typo fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Typo fixed" />
+    <MESSAGE value="User services implemented for login microservice" />
+    <option name="LAST_COMMIT_MESSAGE" value="User services implemented for login microservice" />
   </component>
 </project>

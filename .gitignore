@@ -36,3 +36,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Datasource folder
+
+.idea/dataSources/**
+.idea/dataSources.local.xml
