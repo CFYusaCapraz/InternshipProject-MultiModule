@@ -32,11 +32,11 @@ public class CurrencyService {
                 APIResponse<List<CurrencyViewDTO>> body = APIResponse.successWithData(currencyList, "All currency information.");
                 return ResponseEntity.ok(body);
             } else {
-                APIResponse<?> body = APIResponse.error("There are no currencys in the database.");
+                APIResponse<?> body = APIResponse.error("There are no currencies in the database.");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
             }
         } catch (Exception e) {
-            APIResponse<?> body = APIResponse.error("Error occurred while getting all the currencys!");
+            APIResponse<?> body = APIResponse.error("Error occurred while getting all the currencies!");
             return ResponseEntity.internalServerError().body(body);
         }
     }
