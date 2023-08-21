@@ -14,5 +14,6 @@ public class ClientApp {
 
     public static void main(String[] args) {
         MainFrame MainFrame = new MainFrame();
+        MainFrame.setVisible(true);
     }
 }
