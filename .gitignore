@@ -38,6 +38,8 @@ build/
 .DS_Store
 
 # Datasource folder
-
 .idea/dataSources/**
 .idea/dataSources.local.xml
+
+# HTTP Requests folder
+.idea/httpRequests/**
