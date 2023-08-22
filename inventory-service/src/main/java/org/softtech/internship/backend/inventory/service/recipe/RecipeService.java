@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.inventory.model.recipe.dto.RecipeCreateDTO;
 import org.softtech.internship.backend.inventory.model.recipe.dto.RecipeUpdateDTO;
 import org.softtech.internship.backend.inventory.model.recipe.dto.RecipeViewDTO;
-import org.softtech.internship.backend.inventory.service.material.MaterialService;
+import org.softtech.internship.backend.inventory.repository.RecipeMaterialRepository;
 import org.softtech.internship.backend.inventory.model.APIResponse;
 import org.softtech.internship.backend.inventory.model.recipe.Recipe;
-import org.softtech.internship.backend.inventory.repository.CurrencyRepository;
 import org.softtech.internship.backend.inventory.repository.MaterialRepository;
 import org.softtech.internship.backend.inventory.repository.RecipeRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +24,7 @@ import java.util.UUID;
 public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final MaterialRepository materialRepository;
-    private final CurrencyRepository currencyRepository;
+    private final RecipeMaterialRepository recipeMaterialRepository;
 
     public ResponseEntity<? extends APIResponse<?>> getAllRecipes() {
         try {
@@ -85,7 +84,11 @@ public class RecipeService {
             APIResponse<?> body = APIResponse.error("`recipe_name` and `material_id_list` cannot be empty!");
             return ResponseEntity.unprocessableEntity().body(body);
         } else {
-            Recipe newRecipe = RecipeMapper.createMapper(createDTO, materialRepository);
+            Recipe newRecipe = RecipeMapper.createMapper(createDTO, materialRepository, recipeMaterialRepository);
+            if (newRecipe.getRecipeName().equals("Wrong material id")) {
+                APIResponse<?> body = APIResponse.error("Material ID of a material is wrong!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+            }
             try {
                 recipeRepository.saveAndFlush(newRecipe);
                 RecipeViewDTO viewDTO = RecipeMapper.viewMapper(newRecipe);
@@ -166,7 +169,7 @@ public class RecipeService {
                             APIResponse<?> body = APIResponse.error("No update has been done!");
                             return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
                         }
-                        Recipe newRecipe = RecipeMapper.updateMapper(recipe.get(), updateDTO, new MaterialService(materialRepository, currencyRepository));
+                        Recipe newRecipe = RecipeMapper.updateMapper(recipe.get(), updateDTO, materialRepository, recipeMaterialRepository);
                         recipeRepository.saveAndFlush(newRecipe);
                         RecipeViewDTO viewDTO = RecipeMapper.viewMapper(newRecipe);
                         APIResponse<RecipeViewDTO> body = APIResponse.successWithData(viewDTO, String.format("Recipe information of ID: `%s` is updated.", id));

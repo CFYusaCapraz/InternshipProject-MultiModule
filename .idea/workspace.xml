@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="User service login unit test implemented">
+    <list default="true" id="af0e54ba-8c95-431c-bc31-8128020e9ec3" name="Changes" comment="Material's `price` attribute changed to `unit_price`">
+      <change afterPath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/repository/RecipeMaterialRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/main/java/org/softtech/internship/backend/login/model/user/dto/UserRegisterDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-service/src/test/java/org/softtech/internship/backend/login/service/user/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/login-service/src/test/java/org/softtech/internship/backend/login/service/user/UserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/InventoryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/service/recipe/RecipeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/service/recipe/RecipeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/service/recipe/RecipeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/service/recipe/RecipeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,9 +22,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -27,7 +32,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -51,6 +56,7 @@
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "17",
     "last_opened_file_path": "/home/yusa/IdeaProjects/InternshipProject/login-service/src/main/resources",
@@ -61,7 +67,8 @@
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.28491098",
-    "settings.editor.selected.configurable": "project.propCompiler",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "database.query.execution",
     "spring.configuration.checksum": "03e8481d491ea9a9d85a72826e0a94e8",
     "vue.rearranger.settings.migration": "true"
   },
@@ -102,7 +109,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserServiceTest">
+  <component name="RunManager" selected="Spring Boot.InventoryServiceApplication">
     <configuration name="ClientApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.softtech.internship.frontend.ClientApp" />
       <module name="front-end" />
@@ -135,7 +142,6 @@
       </method>
     </configuration>
     <configuration name="InventoryServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="inventory-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.softtech.internship.backend.inventory.InventoryServiceApplication" />
       <method v="2">
@@ -165,10 +171,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ClientApp" />
         <item itemvalue="JUnit.UserServiceTest" />
         <item itemvalue="Spring Boot.LoginServiceApplication" />
         <item itemvalue="HTTP Request.generated-requests | #5" />
-        <item itemvalue="Application.ClientApp" />
       </list>
     </recent_temporary>
   </component>
@@ -182,7 +188,9 @@
       <updated>1692368446836</updated>
       <workItem from="1692368447954" duration="5874000" />
       <workItem from="1692480219625" duration="1161000" />
-      <workItem from="1692598215362" duration="18562000" />
+      <workItem from="1692598215362" duration="18989000" />
+      <workItem from="1692691458680" duration="2786000" />
+      <workItem from="1692712875040" duration="13713000" />
     </task>
     <task id="LOCAL-00001" summary="Login service development started">
       <option name="closed" value="true" />
@@ -232,7 +240,31 @@
       <option name="project" value="LOCAL" />
       <updated>1692628888640</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="User service registration unit test implemented">
+      <option name="closed" value="true" />
+      <created>1692636143072</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1692636143072</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Intermediate table RecipeMaterial table create.&#10;This table will be used for mapping many2many relationship between material and recipe tables.">
+      <option name="closed" value="true" />
+      <created>1692732725996</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1692732725996</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Material's `price` attribute changed to `unit_price`">
+      <option name="closed" value="true" />
+      <created>1692732786145</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1692732786145</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,6 +288,24 @@
     <MESSAGE value="User services implemented for login microservice" />
     <MESSAGE value="Datasource files and folder excluded" />
     <MESSAGE value="User service login unit test implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="User service login unit test implemented" />
+    <MESSAGE value="User service registration unit test implemented" />
+    <MESSAGE value="Intermediate table RecipeMaterial table create.&#10;This table will be used for mapping many2many relationship between material and recipe tables." />
+    <MESSAGE value="Material's `price` attribute changed to `unit_price`" />
+    <option name="LAST_COMMIT_MESSAGE" value="Material's `price` attribute changed to `unit_price`" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/inventory-service/src/main/java/org/softtech/internship/backend/inventory/service/recipe/RecipeService.java</url>
+          <line>83</line>
+          <properties class="org.softtech.internship.backend.inventory.service.recipe.RecipeService" method="createRecipe">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
