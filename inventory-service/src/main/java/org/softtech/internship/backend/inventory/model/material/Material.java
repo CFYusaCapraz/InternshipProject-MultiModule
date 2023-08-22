@@ -25,7 +25,7 @@ public class Material {
     @Column(nullable = false, unique = true)
     private String materialName;
     @Column(nullable = false)
-    private BigDecimal price;
+    private BigDecimal unitPrice;
     @ManyToOne
     @JoinColumn(name = "currency_id", nullable = false)
     private Currency currency;
@@ -41,17 +41,17 @@ public class Material {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Material material = (Material) o;
-        return Objects.equals(materialId, material.materialId) && Objects.equals(materialName, material.materialName) && Objects.equals(price, material.price);
+        return Objects.equals(materialId, material.materialId) && Objects.equals(materialName, material.materialName) && Objects.equals(unitPrice, material.unitPrice) && Objects.equals(currency, material.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(materialId, materialName, price);
+        return Objects.hash(materialId, materialName, unitPrice, currency);
     }
 
     @Override
     public String toString() {
-        return "Material{" + "materialId=" + materialId + ", materialName='" + materialName + '\'' + ", price=" + price + '}';
+        return "Material{" + "materialId=" + materialId + ", materialName='" + materialName + '\'' + ", unitPrice=" + unitPrice + ", currency=" + currency + '}';
     }
 
     @PrePersist

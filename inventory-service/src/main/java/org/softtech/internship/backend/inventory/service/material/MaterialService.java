@@ -81,7 +81,7 @@ public class MaterialService {
     public ResponseEntity<? extends APIResponse<?>> createMaterial(MaterialCreateDTO createDTO) {
         if ((createDTO.getMaterial_name() == null || createDTO.getMaterial_name().isEmpty())
                 && (createDTO.getCurrency_name() == null || createDTO.getCurrency_name().isEmpty())
-                && createDTO.getPrice() == null) {
+                && createDTO.getUnit_price() == null) {
             APIResponse<?> body = APIResponse.error("`material_name`, `price` and `currency_name` cannot be empty!");
             return ResponseEntity.unprocessableEntity().body(body);
         } else {

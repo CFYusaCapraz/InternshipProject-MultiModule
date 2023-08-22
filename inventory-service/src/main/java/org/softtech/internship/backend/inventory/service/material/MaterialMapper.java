@@ -12,7 +12,7 @@ public class MaterialMapper {
     public static Material createMapper(MaterialCreateDTO createDTO, Currency currency) {
         return Material.builder()
                 .materialName(createDTO.getMaterial_name())
-                .price(createDTO.getPrice())
+                .unitPrice(createDTO.getUnit_price())
                 .currency(currency)
                 .build();
     }
@@ -21,7 +21,7 @@ public class MaterialMapper {
         return MaterialViewDTO.builder()
                 .material_id(material.getMaterialId())
                 .material_name(material.getMaterialName())
-                .price(material.getPrice())
+                .unit_price(material.getUnitPrice())
                 .currency_name(material.getCurrency().getCurrencyName())
                 .build();
     }
@@ -30,8 +30,8 @@ public class MaterialMapper {
         if (updateDTO.getMaterial_name() != null && !updateDTO.getMaterial_name().isEmpty()) {
             oldMaterial.setMaterialName(updateDTO.getMaterial_name());
         }
-        if (updateDTO.getPrice() != null) {
-            oldMaterial.setPrice(updateDTO.getPrice());
+        if (updateDTO.getUnit_price() != null) {
+            oldMaterial.setUnitPrice(updateDTO.getUnit_price());
         }
         if (updateDTO.getCurrency_name() != null && !updateDTO.getCurrency_name().isEmpty()) {
             oldMaterial.setCurrency(currency);

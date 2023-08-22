@@ -15,6 +15,6 @@ import java.util.UUID;
 public class MaterialViewDTO {
     private UUID material_id;
     private String material_name;
-    private BigDecimal price;
+    private BigDecimal unit_price;
     private String currency_name;
 }

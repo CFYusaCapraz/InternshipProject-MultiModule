@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 @Getter
 public class MaterialCreateDTO {
     private String material_name;
-    private BigDecimal price;
+    private BigDecimal unit_price;
     private String currency_name;
 }
