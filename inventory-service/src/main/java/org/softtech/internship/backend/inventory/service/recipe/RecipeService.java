@@ -80,29 +80,28 @@ public class RecipeService {
     }
 
     public ResponseEntity<? extends APIResponse<?>> createRecipe(RecipeCreateDTO createDTO) {
-        if ((createDTO.getRecipe_name() == null || createDTO.getRecipe_name().isEmpty()) && createDTO.getMaterial_id_list().isEmpty()) {
-            APIResponse<?> body = APIResponse.error("`recipe_name` and `material_id_list` cannot be empty!");
-            return ResponseEntity.unprocessableEntity().body(body);
-        } else {
-            Recipe newRecipe = RecipeMapper.createMapper(createDTO, materialRepository, recipeMaterialRepository);
-            if (newRecipe.getRecipeName().equals("Wrong material id")) {
-                APIResponse<?> body = APIResponse.error("Material ID of a material is wrong!");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
-            }
-            try {
-                Recipe flush = recipeRepository.saveAndFlush(newRecipe);
-                flush.getRecipeMaterials().forEach(recipeMaterial -> recipeMaterial.setRecipe(flush));
-                recipeRepository.saveAndFlush(flush);
-                RecipeViewDTO viewDTO = RecipeMapper.viewMapper(flush);
+        try {
+            if ((createDTO.getRecipe_name() == null || createDTO.getRecipe_name().isEmpty()) && createDTO.getMaterial_id_list().isEmpty()) {
+                APIResponse<?> body = APIResponse.error("`recipe_name` and `material_id_list` cannot be empty!");
+                return ResponseEntity.unprocessableEntity().body(body);
+            } else {
+                Recipe newRecipe = RecipeMapper.createMapper(createDTO, materialRepository, recipeMaterialRepository);
+                recipeRepository.saveAndFlush(newRecipe);
+                newRecipe.getRecipeMaterials().forEach(recipeMaterial -> recipeMaterial.setRecipe(newRecipe));
+                recipeRepository.saveAndFlush(newRecipe);
+                RecipeViewDTO viewDTO = RecipeMapper.viewMapper(newRecipe);
                 APIResponse<RecipeViewDTO> body = APIResponse.successWithData(viewDTO, "Recipe has successfully created.");
                 return ResponseEntity.status(HttpStatus.CREATED).body(body);
-            } catch (DataIntegrityViolationException e) {
-                APIResponse<?> body = APIResponse.error("Recipe already exists!");
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
-            } catch (Exception e) {
-                APIResponse<?> body = APIResponse.error("Error occurred while creating the recipe!");
-                return ResponseEntity.internalServerError().body(body);
             }
+        } catch (IllegalArgumentException e) {
+            APIResponse<?> body = APIResponse.error("Material ID of a material is wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+        } catch (DataIntegrityViolationException e) {
+            APIResponse<?> body = APIResponse.error("Recipe already exists!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+        } catch (Exception e) {
+            APIResponse<?> body = APIResponse.error("Error occurred while creating the recipe!");
+            return ResponseEntity.internalServerError().body(body);
         }
     }
 
@@ -172,10 +171,10 @@ public class RecipeService {
                             return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
                         }
                         Recipe newRecipe = RecipeMapper.updateMapper(recipe.get(), updateDTO, materialRepository, recipeMaterialRepository);
-                        Recipe flush = recipeRepository.saveAndFlush(newRecipe);
-                        flush.getRecipeMaterials().forEach(recipeMaterial -> recipeMaterial.setRecipe(flush));
-                        recipeRepository.saveAndFlush(flush);
-                        RecipeViewDTO viewDTO = RecipeMapper.viewMapper(flush);
+                        recipeRepository.saveAndFlush(newRecipe);
+                        newRecipe.getRecipeMaterials().forEach(recipeMaterial -> recipeMaterial.setRecipe(newRecipe));
+                        recipeRepository.saveAndFlush(newRecipe);
+                        RecipeViewDTO viewDTO = RecipeMapper.viewMapper(newRecipe);
                         APIResponse<RecipeViewDTO> body = APIResponse.successWithData(viewDTO, String.format("Recipe information of ID: `%s` is updated.", id));
                         return ResponseEntity.ok(body);
                     } else {
@@ -184,6 +183,9 @@ public class RecipeService {
                     }
                 }
             }
+        } catch (IllegalArgumentException e) {
+            APIResponse<?> body = APIResponse.error("Material ID of a material is wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
         } catch (Exception e) {
             APIResponse<?> body = APIResponse.error("Error occurred while updating the material!");
             return ResponseEntity.internalServerError().body(body);

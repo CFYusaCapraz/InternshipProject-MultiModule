@@ -23,8 +23,7 @@ public class RecipeMapper {
             recipe.setRecipeMaterials(recipeMaterialList);
             return recipe;
         } catch (IllegalArgumentException e) {
-            recipe.setRecipeName("Wrong material id");
-            return recipe;
+            throw new IllegalArgumentException("Material ID of a material is wrong!");
         }
     }
 
@@ -54,7 +53,7 @@ public class RecipeMapper {
                 List<RecipeMaterial> recipeMaterialList = RecipeMaterialMapper.createMapper(updateDTO.getMaterialGeneralDTOList(), recipeMaterialRepository, materialRepository);
                 oldRecipe.setRecipeMaterials(recipeMaterialList);
             } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Material ID of a material is wrong!");
+                throw new IllegalArgumentException("Material ID of a material is wrong!");
             }
         }
         oldRecipe.setUpdateTime(LocalDateTime.now());
