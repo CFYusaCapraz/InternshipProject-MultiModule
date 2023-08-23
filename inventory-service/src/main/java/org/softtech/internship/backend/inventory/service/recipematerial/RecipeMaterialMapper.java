@@ -20,7 +20,7 @@ public class RecipeMaterialMapper {
             RecipeMaterial recipeMaterial = new RecipeMaterial();
             material.ifPresent(material1 -> {
                 recipeMaterial.setMaterial(material1);
-                recipeMaterial.setQuantity(recipeMaterial.getQuantity());
+                recipeMaterial.setQuantity(generalDTO.getQuantity());
             });
             RecipeMaterial flush = recipeMaterialRepository.saveAndFlush(recipeMaterial);
             recipeMaterialList.add(flush);
