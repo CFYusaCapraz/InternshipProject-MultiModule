@@ -24,6 +24,7 @@ import org.apache.http.entity.StringEntity;
 import org.softtech.internship.frontend.Currency;
 import org.softtech.internship.frontend.Material;
 import org.softtech.internship.frontend.Recipe;
+import org.softtech.internship.frontend.RecipeMaterial;
 import org.softtech.internship.frontend.dto.CurrencyAddDTO;
 import org.softtech.internship.frontend.dto.CurrencyUpdateDTO;
 import org.softtech.internship.frontend.dto.MaterialAddDTO;
@@ -59,12 +60,12 @@ public class HyperMethod {
                     LinkedHashMap<String, ?> nRow = (LinkedHashMap) row;
                     String id = (String) nRow.get("material_id");
                     String name = (String) nRow.get("material_name");
-                    Double price = (Double) nRow.get("price");
+                    Double unit_price = (Double) nRow.get("unit_price");
                     String currency_name = (String) nRow.get("currency_name");
                     Material material = Material.builder()
                             .id(id)
                             .name(name)
-                            .price(price)
+                            .unit_price(unit_price)
                             .currency_name(currency_name).build();
                     materials.add(material);
                 }
@@ -124,20 +125,19 @@ public class HyperMethod {
                     String id = (String) nRow.get("recipe_id");
                     String name = (String) nRow.get("recipe_name");
                     ArrayList materialList = (ArrayList) nRow.get("materials");
-                    List<Material> materialS = new ArrayList<>();
+                    List<RecipeMaterial> material_list = new ArrayList<>();
                     for (Object mRow : materialList) {
-                        LinkedHashMap<String, ?> nMRow = (LinkedHashMap) mRow;
-                        Material m = Material.builder()
-                                .id((String) nMRow.get("material_id"))
-                                .name((String) nMRow.get("material_name"))
-                                .price((Double) nMRow.get("price"))
+                        LinkedHashMap<String, ?> materialRow = (LinkedHashMap) mRow;
+                        RecipeMaterial recipeMaterial = RecipeMaterial.builder()
+                                .material_id((String) materialRow.get("material_id"))
+                                .quantity((Double) materialRow.get("quantity"))
                                 .build();
-                        materialS.add(m);
+                        material_list.add(recipeMaterial);
                     }
                     Recipe recipe = Recipe.builder()
                             .id(id)
                             .name(name)
-                            .materials(materialS)
+                            .materials(material_list)
                             .build();
                     recipes.add(recipe);
                 }

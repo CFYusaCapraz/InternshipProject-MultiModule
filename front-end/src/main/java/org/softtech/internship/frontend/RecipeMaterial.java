@@ -19,9 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Material {
-    private String id;
-    private String name;
-    private Double unit_price;
-    private String currency_name;
+public class RecipeMaterial {
+    private String material_id;
+    private Double quantity;
 }

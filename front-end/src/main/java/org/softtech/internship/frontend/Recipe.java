@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.softtech.internship.frontend.Material;
 
 /**
  *
@@ -24,5 +23,5 @@ import org.softtech.internship.frontend.Material;
 public class Recipe {
     private String id;
     private String name;
-    private List<Material> materials;
+    private List<RecipeMaterial> materials;
 }

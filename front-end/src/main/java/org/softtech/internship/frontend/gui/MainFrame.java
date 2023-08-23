@@ -840,7 +840,7 @@ public class MainFrame extends javax.swing.JFrame {
         recipeList = HyperMethod.getRecipes();
 
         materialTableModel = new MaterialTableModel(materialList);
-        recipeTableModel = new RecipeTableModel(recipeList);
+        recipeTableModel = new RecipeTableModel(recipeList, materialList,currencyList);
         currencyTableModel = new CurrencyTableModel(currencyList);
 
         jTableMaterials.setModel(materialTableModel);

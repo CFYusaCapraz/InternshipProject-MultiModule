@@ -37,7 +37,7 @@ public class MaterialTableModel extends AbstractTableModel {
         if (columnIndex == 0) {
             return material.getName();
         } else if (columnIndex == 1) {
-            return String.format("%.3f %s", material.getPrice() ,material.getCurrency_name());
+            return String.format("%.3f %s", material.getUnit_price(),material.getCurrency_name());
         }
         return null;
     }
