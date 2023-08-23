@@ -11,7 +11,7 @@ import java.util.Objects;
 @Builder
 public class RecipeMaterialGeneralDTO {
     private String material_id;
-    private Integer quantity;
+    private Double quantity;
 
     @Override
     public boolean equals(Object o) {

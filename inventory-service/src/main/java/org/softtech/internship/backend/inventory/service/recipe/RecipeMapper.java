@@ -31,7 +31,7 @@ public class RecipeMapper {
         List<RecipeMaterialGeneralDTO> generalDTOList = new ArrayList<>();
         for (RecipeMaterial x : newRecipe.getRecipeMaterials()) {
             String id = x.getMaterial().getMaterialId().toString();
-            int quantity = x.getQuantity();
+            double quantity = x.getQuantity();
             generalDTOList.add(RecipeMaterialGeneralDTO.builder()
                     .material_id(id)
                     .quantity(quantity)
