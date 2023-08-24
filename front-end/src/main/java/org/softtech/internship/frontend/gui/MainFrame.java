@@ -23,6 +23,7 @@ import javax.swing.table.TableColumnModel;
 import org.softtech.internship.frontend.Currency;
 import org.softtech.internship.frontend.Material;
 import org.softtech.internship.frontend.Recipe;
+import org.softtech.internship.frontend.RecipeMaterial;
 import org.softtech.internship.frontend.dto.CurrencyAddDTO;
 import org.softtech.internship.frontend.dto.CurrencyUpdateDTO;
 import org.softtech.internship.frontend.dto.MaterialAddDTO;
@@ -105,6 +106,8 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonDeleteR = new javax.swing.JButton();
         jButtonUpdateR = new javax.swing.JButton();
         jButtonAddR = new javax.swing.JButton();
+        jLabelQuantity = new javax.swing.JLabel();
+        jTextFieldQuantity = new javax.swing.JTextField();
         jPanelCurrency = new javax.swing.JPanel();
         jScrollPaneCurrency = new javax.swing.JScrollPane();
         jTableCurrencies = new javax.swing.JTable();
@@ -340,6 +343,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelQuantity.setFont(new java.awt.Font("Liberation Sans", 0, 20)); // NOI18N
+        jLabelQuantity.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelQuantity.setLabelFor(jTextFieldQuantity);
+        jLabelQuantity.setText("Quantity (Kg)");
+
+        jTextFieldQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldQuantity.setText("1.00");
+
         javax.swing.GroupLayout jPanelRecipeInfoLayout = new javax.swing.GroupLayout(jPanelRecipeInfo);
         jPanelRecipeInfo.setLayout(jPanelRecipeInfoLayout);
         jPanelRecipeInfoLayout.setHorizontalGroup(
@@ -357,11 +368,20 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(jTextFieldRecipeName, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
                     .addGroup(jPanelRecipeInfoLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
                         .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonInclude)
-                            .addComponent(jButtonExclude))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanelRecipeInfoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanelRecipeInfoLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonInclude)
+                                    .addComponent(jButtonExclude))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRecipeInfoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldQuantity)))
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelRecipeInfoLayout.createSequentialGroup()
                         .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -385,13 +405,16 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelRecipeInfoLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRecipeInfoLayout.createSequentialGroup()
+                        .addComponent(jLabelQuantity)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldQuantity)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonInclude)
-                        .addGap(60, 60, 60)
+                        .addGap(49, 49, 49)
                         .addComponent(jButtonExclude)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,7 +424,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDeleteR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonClearR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelRecipeLayout = new javax.swing.GroupLayout(jPanelRecipe);
@@ -809,6 +832,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelCurrencyRate;
     private javax.swing.JLabel jLabelMaterialName;
     private javax.swing.JLabel jLabelMaterialPrice;
+    private javax.swing.JLabel jLabelQuantity;
     private javax.swing.JLabel jLabelRecipeName;
     private javax.swing.JList<String> jListExcluded;
     private javax.swing.JList<String> jListIncluded;
@@ -831,6 +855,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCurrencyRate;
     private javax.swing.JTextField jTextFieldMaterialName;
     private javax.swing.JTextField jTextFieldMaterialPrice;
+    private javax.swing.JTextField jTextFieldQuantity;
     private javax.swing.JTextField jTextFieldRecipeName;
     // End of variables declaration//GEN-END:variables
 
@@ -840,7 +865,7 @@ public class MainFrame extends javax.swing.JFrame {
         recipeList = HyperMethod.getRecipes();
 
         materialTableModel = new MaterialTableModel(materialList);
-        recipeTableModel = new RecipeTableModel(recipeList, materialList,currencyList);
+        recipeTableModel = new RecipeTableModel(recipeList, materialList, currencyList);
         currencyTableModel = new CurrencyTableModel(currencyList);
 
         jTableMaterials.setModel(materialTableModel);
@@ -900,7 +925,7 @@ public class MainFrame extends javax.swing.JFrame {
         tableHeader.setFont(headerFont);
     }
 
-    private synchronized void currencyComboBoxSetter(JComboBox<String> comboBox) {
+    private void currencyComboBoxSetter(JComboBox<String> comboBox) {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         List<Currency> currencies = HyperMethod.getCurrencies();
         for (Currency c : currencies) {
