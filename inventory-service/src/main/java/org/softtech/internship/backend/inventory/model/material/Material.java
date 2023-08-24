@@ -55,7 +55,7 @@ public class Material {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         LocalDateTime time = now();
         creationTime = time;
         updateTime = time;
@@ -64,7 +64,7 @@ public class Material {
 
     // TODO: Learn more about @UpdateTimeStamp annotations
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updateTime = now();
     }
 }

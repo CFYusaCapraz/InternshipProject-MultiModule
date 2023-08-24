@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.softtech.internship.frontend.RecipeMaterial;
 
 /**
  *
@@ -18,5 +19,5 @@ import lombok.Data;
 @Builder
 public class RecipeAddDTO {
     private String recipe_name;
-    private List<String> material_id_list;
+    private List<RecipeMaterial> material_id_list;
 }

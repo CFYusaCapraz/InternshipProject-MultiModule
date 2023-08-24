@@ -11,10 +11,10 @@ import java.util.List;
 @Getter
 public class RecipeUpdateDTO {
     private String recipe_name;
-    private List<RecipeMaterialGeneralDTO> materialGeneralDTOList;
+    private List<RecipeMaterialGeneralDTO> material_id_list;
 
     public boolean isEmpty() {
-        return (recipe_name == null || recipe_name.isEmpty()) && materialGeneralDTOList.isEmpty();
+        return (recipe_name == null || recipe_name.isEmpty()) && material_id_list.isEmpty();
     }
 
     public boolean isSame(Recipe oldRecipe) {
@@ -26,11 +26,11 @@ public class RecipeUpdateDTO {
                     .build();
             materialList.add(dto);
         }
-        if (recipe_name != null && materialGeneralDTOList != null) {
+        if (recipe_name != null && material_id_list != null) {
             return oldRecipe.getRecipeName().equals(recipe_name) &&
-                    materialList.equals(materialGeneralDTOList);
+                    materialList.equals(material_id_list);
         } else if (recipe_name != null) {
             return oldRecipe.getRecipeName().equals(recipe_name);
-        } else return materialList.equals(materialGeneralDTOList);
+        } else return materialList.equals(material_id_list);
     }
 }

@@ -48,9 +48,9 @@ public class RecipeMapper {
         if (updateDTO.getRecipe_name() != null && !updateDTO.getRecipe_name().isEmpty()) {
             oldRecipe.setRecipeName(updateDTO.getRecipe_name());
         }
-        if (updateDTO.getMaterialGeneralDTOList() != null && !updateDTO.getMaterialGeneralDTOList().isEmpty()) {
+        if (updateDTO.getMaterial_id_list() != null && !updateDTO.getMaterial_id_list().isEmpty()) {
             try {
-                List<RecipeMaterial> recipeMaterialList = RecipeMaterialMapper.createMapper(updateDTO.getMaterialGeneralDTOList(), recipeMaterialRepository, materialRepository);
+                List<RecipeMaterial> recipeMaterialList = RecipeMaterialMapper.createMapper(updateDTO.getMaterial_id_list(), recipeMaterialRepository, materialRepository);
                 oldRecipe.setRecipeMaterials(recipeMaterialList);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Material ID of a material is wrong!");

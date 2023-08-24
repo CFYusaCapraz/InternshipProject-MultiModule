@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.softtech.internship.frontend.RecipeMaterial;
 
 /**
  *
@@ -21,5 +22,5 @@ import lombok.NoArgsConstructor;
 public class RecipeUpdateDTO {
 
     private String recipe_name;
-    private List<String> material_id_list;
+    private List<RecipeMaterial> material_id_list;
 }

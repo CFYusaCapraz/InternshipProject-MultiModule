@@ -596,10 +596,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPaneStateChanged
 
     private void jButtonClearRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearRActionPerformed
-//        jTextFieldRecipeName.setText("");
-//        includedListModel.setMaterialList(new ArrayList<>());
-//        excludedListModel.setMaterialList(materialList);
-//        selectedRecipeID = "";
+        jTextFieldRecipeName.setText("");
+        includedListModel.setMaterialList(new ArrayList<>());
+        excludedListModel.setMaterialList(getRecipeMaterials());
+        selectedRecipeID = "";
     }//GEN-LAST:event_jButtonClearRActionPerformed
 
     private void jButtonDeleteMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteMActionPerformed
@@ -612,13 +612,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeleteMActionPerformed
 
     private void jButtonDeleteRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteRActionPerformed
-//        if (HyperMethod.deleteRecipe(selectedRecipeID)) {
-//            update();
-//            jTextFieldRecipeName.setText("");
-//            includedListModel.setMaterialList(new ArrayList<>());
-//            excludedListModel.setMaterialList(materialList);
-//            selectedRecipeID = "";
-//        }
+        if (HyperMethod.deleteRecipe(selectedRecipeID)) {
+            update();
+            jTextFieldRecipeName.setText("");
+            includedListModel.setMaterialList(new ArrayList<>());
+            excludedListModel.setMaterialList(getRecipeMaterials());
+            selectedRecipeID = "";
+        }
     }//GEN-LAST:event_jButtonDeleteRActionPerformed
 
     private void jButtonDeleteCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteCActionPerformed
@@ -685,54 +685,51 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddCActionPerformed
 
     private void jButtonAddRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddRActionPerformed
-//        String name = jTextFieldRecipeName.getText();
-//        ListModel<String> list = jListIncluded.getModel();
-//        if (!name.isEmpty() && list.getSize() > 0) {
-//            List<String> recipeMaterialList = new ArrayList<>();
-//            for (int i = 0; i < list.getSize(); i++) {
-//                String listMaterialName = list.getElementAt(i);
-//                materialList.stream()
-//                        .filter((t) -> t.getName().equals(listMaterialName))
-//                        .findFirst().ifPresent((t) -> {
-//                            recipeMaterialList.add(t.getId());
-//                        });
-//            }
-//            RecipeAddDTO recipeAddDTO = RecipeAddDTO.builder()
-//                    .recipe_name(name)
-//                    .material_id_list(recipeMaterialList)
-//                    .build();
-//            if (HyperMethod.addRecipe(recipeAddDTO)) {
-//                update();
-//                jTextFieldRecipeName.setText("");
-//                includedListModel.setMaterialList(new ArrayList<>());
-//                excludedListModel.setMaterialList(materialList);
-//                selectedRecipeID = "";
-//            }
-//        }
+        String name = jTextFieldRecipeName.getText();
+        List<RecipeMaterial> materials = includedListModel.getMaterialList();
+
+        RecipeAddDTO recipeAddDTO = RecipeAddDTO.builder()
+                .recipe_name(name)
+                .material_id_list(materials)
+                .build();
+        if (HyperMethod.addRecipe(recipeAddDTO)) {
+            update();
+            jTextFieldRecipeName.setText("");
+            includedListModel.setMaterialList(new ArrayList<>());
+            excludedListModel.setMaterialList(getRecipeMaterials());
+            selectedRecipeID = "";
+        }
     }//GEN-LAST:event_jButtonAddRActionPerformed
 
     private void jButtonIncludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncludeActionPerformed
-//        int selectedIndex = jListExcluded.getSelectedIndex();
-//        if (selectedIndex != -1) {
-//            Material m = excludedListModel.getMaterialList().get(selectedIndex);
-//            excludedListModel.removeElement(m);
-//            List<Material> materialList1 = includedListModel.getMaterialList();
-//            materialList1.add(m);
-//            includedListModel.setMaterialList(materialList1);
-//            update();
-//        }
+        int selectedIndex = jListExcluded.getSelectedIndex();
+        if (selectedIndex != -1) {
+            try{
+                RecipeMaterial m = excludedListModel.getMaterialList().get(selectedIndex);
+                excludedListModel.removeElement(m);
+                List<RecipeMaterial> materialList1 = includedListModel.getMaterialList();
+                Double v = Double.parseDouble(jTextFieldQuantity.getText());
+                m.setQuantity(v);
+                materialList1.add(m);
+                includedListModel.setMaterialList(materialList1);
+                update();
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButtonIncludeActionPerformed
 
     private void jButtonExcludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcludeActionPerformed
-//        int selectedIndex = jListIncluded.getSelectedIndex();
-//        if (selectedIndex != -1) {
-//            Material m = includedListModel.getMaterialList().get(selectedIndex);
-//            includedListModel.removeElement(m);
-//            List<Material> materialList1 = excludedListModel.getMaterialList();
-//            materialList1.add(m);
-//            excludedListModel.setMaterialList(materialList1);
-//            update();
-//        }
+        int selectedIndex = jListIncluded.getSelectedIndex();
+        if (selectedIndex != -1) {
+            RecipeMaterial m = includedListModel.getMaterialList().get(selectedIndex);
+            includedListModel.removeElement(m);
+            List<RecipeMaterial> materialList1 = excludedListModel.getMaterialList();
+            m.setQuantity(0d);
+            materialList1.add(m);
+            excludedListModel.setMaterialList(materialList1);
+            update();
+        }
     }//GEN-LAST:event_jButtonExcludeActionPerformed
 
     private void jButtonUpdateMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateMActionPerformed
@@ -790,23 +787,21 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonUpdateCActionPerformed
 
     private void jButtonUpdateRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateRActionPerformed
-//        String name = jTextFieldRecipeName.getText();
-//        if (!name.isEmpty() && includedListModel.getSize() > 0 && !selectedRecipeID.isEmpty()) {
-//            List<String> id_list = includedListModel.getMaterialList().stream()
-//                    .map(Material::getId)
-//                    .collect(Collectors.toList());
-//            RecipeUpdateDTO recipeUpdateDTO = RecipeUpdateDTO.builder()
-//                    .recipe_name(name)
-//                    .material_id_list(id_list)
-//                    .build();
-//            if (HyperMethod.updateRecipe(selectedRecipeID, recipeUpdateDTO)) {
-//                update();
-//                jTextFieldRecipeName.setText("");
-//                includedListModel.setMaterialList(new ArrayList<>());
-//                excludedListModel.setMaterialList(materialList);
-//                selectedRecipeID = "";
-//            }
-//        }
+        String name = jTextFieldRecipeName.getText();
+        if (!name.isEmpty() && includedListModel.getSize() > 0 && !selectedRecipeID.isEmpty()) {
+            List<RecipeMaterial> materials = includedListModel.getMaterialList();
+            RecipeUpdateDTO recipeUpdateDTO = RecipeUpdateDTO.builder()
+                    .recipe_name(name)
+                    .material_id_list(materials)
+                    .build();
+            if (HyperMethod.updateRecipe(selectedRecipeID, recipeUpdateDTO)) {
+                update();
+                jTextFieldRecipeName.setText("");
+                includedListModel.setMaterialList(new ArrayList<>());
+                excludedListModel.setMaterialList(getRecipeMaterials());
+                selectedRecipeID = "";
+            }
+        }
     }//GEN-LAST:event_jButtonUpdateRActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -983,12 +978,14 @@ public class MainFrame extends javax.swing.JFrame {
                                 recipeList.stream()
                                         .filter((t) -> t.getName().equals(recipeName))
                                         .findFirst().ifPresent(recipe -> {
+                                            selectedRecipeID = recipe.getId();
                                             List<RecipeMaterial> list = new ArrayList<>();
                                             recipe.getMaterials().forEach(recipeMaterial -> {
                                                 list.add(recipeMaterial);
                                                 excludedListModel.removeElement(recipeMaterial);
                                             });
                                             includedListModel.setMaterialList(list);
+                                            jTextFieldRecipeName.setText(recipeName);
                                         });
                                 jTextFieldQuantity.setText("1.00");
                             }

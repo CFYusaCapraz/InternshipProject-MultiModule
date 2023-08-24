@@ -46,7 +46,7 @@ public class Currency {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         LocalDateTime time = now();
         creationTime = time;
         updateTime = time;
@@ -54,7 +54,7 @@ public class Currency {
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updateTime = now();
     }
 }

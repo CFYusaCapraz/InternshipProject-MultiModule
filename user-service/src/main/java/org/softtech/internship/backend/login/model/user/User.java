@@ -54,7 +54,7 @@ public class User {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         LocalDateTime time = now();
         creationTime = time;
         updateTime = time;
@@ -62,7 +62,7 @@ public class User {
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    public void onUpdate() {
         updateTime = now();
     }
 }
