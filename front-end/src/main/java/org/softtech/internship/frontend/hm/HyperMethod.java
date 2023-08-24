@@ -46,7 +46,7 @@ public class HyperMethod {
     private static void getAllMaterials() {
         try {
             materials = new ArrayList<>();
-            String urlStr = HOST_URL.concat("materials");
+            String urlStr = HOST_URL.concat("inventory/materials");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
             HttpResponse response = httpClient.execute(httpGet);
@@ -79,7 +79,7 @@ public class HyperMethod {
     private static void getAllCurrencies() {
         try {
             currencies = new ArrayList<>();
-            String urlStr = HOST_URL.concat("currencies");
+            String urlStr = HOST_URL.concat("inventory/currencies");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
             HttpResponse response = httpClient.execute(httpGet);
@@ -110,7 +110,7 @@ public class HyperMethod {
     private static void getAllRecipes() {
         try {
             recipes = new ArrayList<>();
-            String urlStr = HOST_URL.concat("recipes");
+            String urlStr = HOST_URL.concat("inventory/recipes");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
             HttpResponse response = httpClient.execute(httpGet);
@@ -164,7 +164,7 @@ public class HyperMethod {
 
     public static boolean deleteMaterial(String id) {
         try {
-            String urlStr = HOST_URL.concat(String.format("materials/delete?id=%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/materials/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
             HttpResponse response = httpClient.execute(httpDel);
@@ -181,7 +181,7 @@ public class HyperMethod {
 
     public static boolean deleteCurrency(String id) {
         try {
-            String urlStr = HOST_URL.concat(String.format("currencies/delete?id=%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/currencies/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
             HttpResponse response = httpClient.execute(httpDel);
@@ -198,7 +198,7 @@ public class HyperMethod {
 
     public static boolean deleteRecipe(String id) {
         try {
-            String urlStr = HOST_URL.concat(String.format("recipes/delete?id=%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/recipes/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
             HttpResponse response = httpClient.execute(httpDel);
@@ -215,7 +215,7 @@ public class HyperMethod {
 
     public static boolean addMaterial(MaterialAddDTO materialAddDTO) {
         try {
-            String urlStr = HOST_URL.concat("materials/create");
+            String urlStr = HOST_URL.concat("inventory/materials/create");
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
@@ -237,7 +237,7 @@ public class HyperMethod {
 
     public static boolean addCurrency(CurrencyAddDTO currencyAddDTO) {
         try {
-            String urlStr = HOST_URL.concat("currencies/create");
+            String urlStr = HOST_URL.concat("inventory/currencies/create");
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
@@ -259,7 +259,7 @@ public class HyperMethod {
 
     public static boolean addRecipe(RecipeAddDTO recipeAddDTO) {
         try {
-            String urlStr = HOST_URL.concat("recipes/create");
+            String urlStr = HOST_URL.concat("inventory/recipes/create");
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
@@ -281,7 +281,7 @@ public class HyperMethod {
     
     public static boolean updateMaterial(String id, MaterialUpdateDTO materialUpdateDTO){
         try {
-            String urlStr = HOST_URL.concat(String.format("materials/update/%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/materials/update/%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
@@ -303,7 +303,7 @@ public class HyperMethod {
     
     public static boolean updateCurrency(String id, CurrencyUpdateDTO currencyUpdateDTO){
         try {
-            String urlStr = HOST_URL.concat(String.format("currencies/update/%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/currencies/update/%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
@@ -325,7 +325,7 @@ public class HyperMethod {
     
     public static boolean updateRecipe(String id, RecipeUpdateDTO recipeUpdateDTO){
         try {
-            String urlStr = HOST_URL.concat(String.format("recipes/update/%s", id));
+            String urlStr = HOST_URL.concat(String.format("inventory/recipes/update/%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
