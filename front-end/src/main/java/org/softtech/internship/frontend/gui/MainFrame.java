@@ -8,12 +8,11 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListModel;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -277,7 +276,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jScrollPane3.setPreferredSize(new java.awt.Dimension(150, 200));
 
-        jListIncluded.setFont(new java.awt.Font("Liberation Sans", 0, 24)); // NOI18N
+        jListIncluded.setFont(new java.awt.Font("Liberation Sans", 0, 20)); // NOI18N
         jListIncluded.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -597,10 +596,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPaneStateChanged
 
     private void jButtonClearRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearRActionPerformed
-        jTextFieldRecipeName.setText("");
-        includedListModel.setMaterialList(new ArrayList<>());
-        excludedListModel.setMaterialList(materialList);
-        selectedRecipeID = "";
+//        jTextFieldRecipeName.setText("");
+//        includedListModel.setMaterialList(new ArrayList<>());
+//        excludedListModel.setMaterialList(materialList);
+//        selectedRecipeID = "";
     }//GEN-LAST:event_jButtonClearRActionPerformed
 
     private void jButtonDeleteMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteMActionPerformed
@@ -613,13 +612,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDeleteMActionPerformed
 
     private void jButtonDeleteRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteRActionPerformed
-        if (HyperMethod.deleteRecipe(selectedRecipeID)) {
-            update();
-            jTextFieldRecipeName.setText("");
-            includedListModel.setMaterialList(new ArrayList<>());
-            excludedListModel.setMaterialList(materialList);
-            selectedRecipeID = "";
-        }
+//        if (HyperMethod.deleteRecipe(selectedRecipeID)) {
+//            update();
+//            jTextFieldRecipeName.setText("");
+//            includedListModel.setMaterialList(new ArrayList<>());
+//            excludedListModel.setMaterialList(materialList);
+//            selectedRecipeID = "";
+//        }
     }//GEN-LAST:event_jButtonDeleteRActionPerformed
 
     private void jButtonDeleteCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteCActionPerformed
@@ -686,54 +685,54 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddCActionPerformed
 
     private void jButtonAddRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddRActionPerformed
-        String name = jTextFieldRecipeName.getText();
-        ListModel<String> list = jListIncluded.getModel();
-        if (!name.isEmpty() && list.getSize() > 0) {
-            List<String> recipeMaterialList = new ArrayList<>();
-            for (int i = 0; i < list.getSize(); i++) {
-                String listMaterialName = list.getElementAt(i);
-                materialList.stream()
-                        .filter((t) -> t.getName().equals(listMaterialName))
-                        .findFirst().ifPresent((t) -> {
-                            recipeMaterialList.add(t.getId());
-                        });
-            }
-            RecipeAddDTO recipeAddDTO = RecipeAddDTO.builder()
-                    .recipe_name(name)
-                    .material_id_list(recipeMaterialList)
-                    .build();
-            if (HyperMethod.addRecipe(recipeAddDTO)) {
-                update();
-                jTextFieldRecipeName.setText("");
-                includedListModel.setMaterialList(new ArrayList<>());
-                excludedListModel.setMaterialList(materialList);
-                selectedRecipeID = "";
-            }
-        }
+//        String name = jTextFieldRecipeName.getText();
+//        ListModel<String> list = jListIncluded.getModel();
+//        if (!name.isEmpty() && list.getSize() > 0) {
+//            List<String> recipeMaterialList = new ArrayList<>();
+//            for (int i = 0; i < list.getSize(); i++) {
+//                String listMaterialName = list.getElementAt(i);
+//                materialList.stream()
+//                        .filter((t) -> t.getName().equals(listMaterialName))
+//                        .findFirst().ifPresent((t) -> {
+//                            recipeMaterialList.add(t.getId());
+//                        });
+//            }
+//            RecipeAddDTO recipeAddDTO = RecipeAddDTO.builder()
+//                    .recipe_name(name)
+//                    .material_id_list(recipeMaterialList)
+//                    .build();
+//            if (HyperMethod.addRecipe(recipeAddDTO)) {
+//                update();
+//                jTextFieldRecipeName.setText("");
+//                includedListModel.setMaterialList(new ArrayList<>());
+//                excludedListModel.setMaterialList(materialList);
+//                selectedRecipeID = "";
+//            }
+//        }
     }//GEN-LAST:event_jButtonAddRActionPerformed
 
     private void jButtonIncludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncludeActionPerformed
-        int selectedIndex = jListExcluded.getSelectedIndex();
-        if (selectedIndex != -1) {
-            Material m = excludedListModel.getMaterialList().get(selectedIndex);
-            excludedListModel.removeElement(m);
-            List<Material> materialList1 = includedListModel.getMaterialList();
-            materialList1.add(m);
-            includedListModel.setMaterialList(materialList1);
-            update();
-        }
+//        int selectedIndex = jListExcluded.getSelectedIndex();
+//        if (selectedIndex != -1) {
+//            Material m = excludedListModel.getMaterialList().get(selectedIndex);
+//            excludedListModel.removeElement(m);
+//            List<Material> materialList1 = includedListModel.getMaterialList();
+//            materialList1.add(m);
+//            includedListModel.setMaterialList(materialList1);
+//            update();
+//        }
     }//GEN-LAST:event_jButtonIncludeActionPerformed
 
     private void jButtonExcludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcludeActionPerformed
-        int selectedIndex = jListIncluded.getSelectedIndex();
-        if (selectedIndex != -1) {
-            Material m = includedListModel.getMaterialList().get(selectedIndex);
-            includedListModel.removeElement(m);
-            List<Material> materialList1 = excludedListModel.getMaterialList();
-            materialList1.add(m);
-            excludedListModel.setMaterialList(materialList1);
-            update();
-        }
+//        int selectedIndex = jListIncluded.getSelectedIndex();
+//        if (selectedIndex != -1) {
+//            Material m = includedListModel.getMaterialList().get(selectedIndex);
+//            includedListModel.removeElement(m);
+//            List<Material> materialList1 = excludedListModel.getMaterialList();
+//            materialList1.add(m);
+//            excludedListModel.setMaterialList(materialList1);
+//            update();
+//        }
     }//GEN-LAST:event_jButtonExcludeActionPerformed
 
     private void jButtonUpdateMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateMActionPerformed
@@ -791,23 +790,23 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonUpdateCActionPerformed
 
     private void jButtonUpdateRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateRActionPerformed
-        String name = jTextFieldRecipeName.getText();
-        if (!name.isEmpty() && includedListModel.getSize() > 0 && !selectedRecipeID.isEmpty()) {
-            List<String> id_list = includedListModel.getMaterialList().stream()
-                    .map(Material::getId)
-                    .collect(Collectors.toList());
-            RecipeUpdateDTO recipeUpdateDTO = RecipeUpdateDTO.builder()
-                    .recipe_name(name)
-                    .material_id_list(id_list)
-                    .build();
-            if (HyperMethod.updateRecipe(selectedRecipeID, recipeUpdateDTO)) {
-                update();
-                jTextFieldRecipeName.setText("");
-                includedListModel.setMaterialList(new ArrayList<>());
-                excludedListModel.setMaterialList(materialList);
-                selectedRecipeID = "";
-            }
-        }
+//        String name = jTextFieldRecipeName.getText();
+//        if (!name.isEmpty() && includedListModel.getSize() > 0 && !selectedRecipeID.isEmpty()) {
+//            List<String> id_list = includedListModel.getMaterialList().stream()
+//                    .map(Material::getId)
+//                    .collect(Collectors.toList());
+//            RecipeUpdateDTO recipeUpdateDTO = RecipeUpdateDTO.builder()
+//                    .recipe_name(name)
+//                    .material_id_list(id_list)
+//                    .build();
+//            if (HyperMethod.updateRecipe(selectedRecipeID, recipeUpdateDTO)) {
+//                update();
+//                jTextFieldRecipeName.setText("");
+//                includedListModel.setMaterialList(new ArrayList<>());
+//                excludedListModel.setMaterialList(materialList);
+//                selectedRecipeID = "";
+//            }
+//        }
     }//GEN-LAST:event_jButtonUpdateRActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -876,8 +875,10 @@ public class MainFrame extends javax.swing.JFrame {
         tableSettings(jTableRecipes);
         tableSettings(jTableCurrencies);
 
-        excludedListModel = new MaterialListModel(materialList);
-        includedListModel = new MaterialListModel(new ArrayList<>());
+        List<RecipeMaterial> recipeMaterialList = getRecipeMaterials();
+
+        excludedListModel = new MaterialListModel(recipeMaterialList, materialList);
+        includedListModel = new MaterialListModel(new ArrayList<>(), materialList);
         jListExcluded.setModel(excludedListModel);
         jListIncluded.setModel(includedListModel);
 
@@ -886,6 +887,9 @@ public class MainFrame extends javax.swing.JFrame {
         tableSelectionListener(jTableMaterials);
         tableSelectionListener(jTableRecipes);
         tableSelectionListener(jTableCurrencies);
+
+        listSelectionListener(jListExcluded);
+        listSelectionListener(jListIncluded);
     }
 
     private void update() {
@@ -899,6 +903,18 @@ public class MainFrame extends javax.swing.JFrame {
         recipeTableModel.setRecipeList(recipeList);
 
         currencyComboBoxSetter(jComboBoxCurrencies);
+    }
+
+    private List<RecipeMaterial> getRecipeMaterials() {
+        List<RecipeMaterial> recipeMaterialList = new ArrayList<>();
+        materialList.forEach(material -> {
+            RecipeMaterial build = RecipeMaterial.builder()
+                    .material_id(material.getId())
+                    .quantity(0d)
+                    .build();
+            recipeMaterialList.add(build);
+        });
+        return recipeMaterialList;
     }
 
     private void tableSettings(JTable table) {
@@ -963,31 +979,18 @@ public class MainFrame extends javax.swing.JFrame {
                             }
                             case "org.softtech.internship.frontend.models.RecipeTableModel" -> {
                                 String recipeName = (String) table.getModel().getValueAt(selectedRow, 0);
-                                String recipeMaterials = (String) table.getModel().getValueAt(selectedRow, 1);
-                                Optional<Recipe> recipe = recipeList.stream()
+                                excludedListModel.setMaterialList(getRecipeMaterials());
+                                recipeList.stream()
                                         .filter((t) -> t.getName().equals(recipeName))
-                                        .findFirst();
-                                if (recipe.isPresent()) {
-                                    List<Material> tmpList = new ArrayList<>();
-                                    for (Material m : materialList) {
-                                        tmpList.add(m);
-                                    }
-                                    excludedListModel.setMaterialList(tmpList);
-                                    selectedRecipeID = recipe.get().getId();
-                                    jTextFieldRecipeName.setText(recipeName);
-                                    String[] recipeMaterialList = recipeMaterials.split(",\\s+");
-                                    List<Material> includedMaterialList = new ArrayList<>();
-                                    for (String material : recipeMaterialList) {
-                                        Optional<Material> findFirst = excludedListModel.getMaterialList().stream()
-                                                .filter((t) -> t.getName().equals(material))
-                                                .findFirst();
-                                        if (findFirst.isPresent()) {
-                                            excludedListModel.removeElement(findFirst.get());
-                                            includedMaterialList.add(findFirst.get());
-                                        }
-                                    }
-                                    includedListModel.setMaterialList(includedMaterialList);
-                                }
+                                        .findFirst().ifPresent(recipe -> {
+                                            List<RecipeMaterial> list = new ArrayList<>();
+                                            recipe.getMaterials().forEach(recipeMaterial -> {
+                                                list.add(recipeMaterial);
+                                                excludedListModel.removeElement(recipeMaterial);
+                                            });
+                                            includedListModel.setMaterialList(list);
+                                        });
+                                jTextFieldQuantity.setText("1.00");
                             }
                             case "org.softtech.internship.frontend.models.CurrencyTableModel" -> {
                                 String currencyName = (String) table.getModel().getValueAt(selectedRow, 0);
@@ -1009,4 +1012,30 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+
+    private void listSelectionListener(JList<String> list) {
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int index = list.getSelectedIndex();
+                    if (index != -1) {
+                        if (e.getSource().equals(jListIncluded)) {
+                            String selectedValue = list.getSelectedValue();
+                            String regex = "\\b(\\d+(\\.\\d+)?)\\s*kg\\b";
+                            Pattern pattern = Pattern.compile(regex);
+                            Matcher matcher = pattern.matcher(selectedValue);
+                            if (matcher.find()) {
+                                String s = matcher.group(1);
+                                jTextFieldQuantity.setText(s);
+                            }
+                        } else {
+                            jTextFieldQuantity.setText("1.00");
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 }

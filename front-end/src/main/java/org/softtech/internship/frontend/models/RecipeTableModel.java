@@ -58,7 +58,7 @@ public class RecipeTableModel extends AbstractTableModel {
                                     .ifPresent(m::set);
                             String name = m.get().getName();
                             Double quantity = recipeMaterial.getQuantity();
-                            return String.format("%s (%.2fkg)", name, quantity);
+                            return String.format("%s (%.2f kg)", name, quantity);
                         })
                         .collect(Collectors.joining(", "));
             }
