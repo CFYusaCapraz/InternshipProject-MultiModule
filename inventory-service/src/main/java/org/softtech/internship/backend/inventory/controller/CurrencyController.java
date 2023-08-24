@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/currencies")
+@RequestMapping("/api/inventory/currencies")
 @RequiredArgsConstructor
 public class CurrencyController {
 

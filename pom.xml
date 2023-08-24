@@ -16,9 +16,10 @@
     <url>https://maven.apache.org</url>
     <modules>
         <module>inventory-service</module>
-        <module>login-service</module>
+        <module>user-service</module>
         <module>front-end</module>
         <module>discovery-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
