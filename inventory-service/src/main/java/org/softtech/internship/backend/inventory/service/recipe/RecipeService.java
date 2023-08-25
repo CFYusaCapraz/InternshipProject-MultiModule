@@ -172,8 +172,10 @@ public class RecipeService {
                         }
                         Recipe newRecipe = RecipeMapper.updateMapper(recipe.get(), updateDTO, materialRepository, recipeMaterialRepository);
                         recipeRepository.saveAndFlush(newRecipe);
-                        newRecipe.getRecipeMaterials().forEach(recipeMaterial -> recipeMaterial.setRecipe(newRecipe));
-                        recipeRepository.saveAndFlush(newRecipe);
+                        newRecipe.getRecipeMaterials().forEach(recipeMaterial -> {
+                            recipeMaterial.setRecipe(newRecipe);
+                            recipeMaterialRepository.saveAndFlush(recipeMaterial);
+                        });
                         RecipeViewDTO viewDTO = RecipeMapper.viewMapper(newRecipe);
                         APIResponse<RecipeViewDTO> body = APIResponse.successWithData(viewDTO, String.format("Recipe information of ID: `%s` is updated.", id));
                         return ResponseEntity.ok(body);

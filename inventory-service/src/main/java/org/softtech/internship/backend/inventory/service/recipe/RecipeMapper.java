@@ -51,6 +51,8 @@ public class RecipeMapper {
         if (updateDTO.getMaterial_id_list() != null && !updateDTO.getMaterial_id_list().isEmpty()) {
             try {
                 List<RecipeMaterial> recipeMaterialList = RecipeMaterialMapper.createMapper(updateDTO.getMaterial_id_list(), recipeMaterialRepository, materialRepository);
+                recipeMaterialRepository.deleteAll(oldRecipe.getRecipeMaterials());
+                recipeMaterialRepository.flush();
                 oldRecipe.setRecipeMaterials(recipeMaterialList);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException("Material ID of a material is wrong!");

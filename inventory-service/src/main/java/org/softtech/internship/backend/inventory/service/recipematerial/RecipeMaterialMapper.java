@@ -22,8 +22,8 @@ public class RecipeMaterialMapper {
                 recipeMaterial.setMaterial(material1);
                 recipeMaterial.setQuantity(generalDTO.getQuantity());
             });
-            RecipeMaterial flush = recipeMaterialRepository.saveAndFlush(recipeMaterial);
-            recipeMaterialList.add(flush);
+            recipeMaterialRepository.saveAndFlush(recipeMaterial);
+            recipeMaterialList.add(recipeMaterial);
         }
         return recipeMaterialList;
     }
