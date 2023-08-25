@@ -1,5 +1,7 @@
 package org.softtech.internship.backend.login.service.user;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
 import org.softtech.internship.backend.login.model.user.User;
@@ -7,16 +9,25 @@ import org.softtech.internship.backend.login.model.user.dto.UserLoginDTO;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
 import org.softtech.internship.backend.login.repository.UserRepository;
 import org.softtech.internship.backend.login.util.HashHandler;
+import org.softtech.internship.backend.login.util.KeyUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.security.PrivateKey;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    private static final PrivateKey PRIVATE_KEY = KeyUtils.loadPrivateKeyFromResource("/private_key.pem");
+    private static final Long EXPIRATION_TIME = 1000L * 60 * 60; // 1 hour
     private final UserRepository userRepository;
 
     public ResponseEntity<? extends APIResponse<?>> login(UserLoginDTO loginDTO) {
@@ -31,7 +42,9 @@ public class UserService {
                 if (user.isPresent()) {
                     String hashedPassword = HashHandler.getHashedPassword(password);
                     if (hashedPassword.equals(user.get().getPassword())) {
-                        APIResponse<?> body = APIResponse.success("Login success");
+
+                        Map<String, Object> data = getData(user.get());
+                        APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Login success");
                         return ResponseEntity.ok(body);
                     } else {
                         APIResponse<?> body = APIResponse.error("User not found!");
@@ -60,15 +73,44 @@ public class UserService {
                 registerDTO.setPassword(hashedPassword);
                 User registeredUser = UserMapper.registerMapper(registerDTO);
                 userRepository.saveAndFlush(registeredUser);
-                APIResponse<?> body = APIResponse.success("Registration success");
+
+                Map<String, Object> data = getData(registeredUser);
+                APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Registration success");
                 return ResponseEntity.status(HttpStatus.CREATED).body(body);
             }
         } catch (DataIntegrityViolationException e) {
             APIResponse<?> body = APIResponse.error("User already exists!");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
         } catch (Exception e) {
-            APIResponse<?> body = APIResponse.error("Error occurred while logging in!");
+            APIResponse<?> body = APIResponse.error("Error occurred while registering!");
             return ResponseEntity.internalServerError().body(body);
         }
+    }
+
+    private Map<String, Object> getData(User user) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiration = now.plusSeconds(EXPIRATION_TIME);
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", generateJwtToken(user.getUserId().toString(), user.getUsername()));
+        data.put("expiration_time", expiration.format(timeFormat));
+        return data;
+    }
+
+    public String generateJwtToken(String userId, String username) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("username", username);
+
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .signWith(PRIVATE_KEY, SignatureAlgorithm.RS256)
+                .compact();
     }
 }
