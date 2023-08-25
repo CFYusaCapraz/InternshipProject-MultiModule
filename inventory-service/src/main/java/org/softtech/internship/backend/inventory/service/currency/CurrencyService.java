@@ -1,26 +1,45 @@
 package org.softtech.internship.backend.inventory.service.currency;
 
-import lombok.RequiredArgsConstructor;
+import org.softtech.internship.backend.inventory.model.APIResponse;
+import org.softtech.internship.backend.inventory.model.currency.Currency;
 import org.softtech.internship.backend.inventory.model.currency.dto.CurrencyCreateDTO;
 import org.softtech.internship.backend.inventory.model.currency.dto.CurrencyUpdateDTO;
 import org.softtech.internship.backend.inventory.model.currency.dto.CurrencyViewDTO;
-import org.softtech.internship.backend.inventory.model.APIResponse;
-import org.softtech.internship.backend.inventory.model.currency.Currency;
+import org.softtech.internship.backend.inventory.model.currency.dto.LiveCurrencyDTO;
 import org.softtech.internship.backend.inventory.repository.CurrencyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class CurrencyService {
     private final CurrencyRepository currencyRepository;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Value("${external.api.url}")
+    private String apiUrl;
+    @Value("${external.api.apikey}")
+    private String apiKey;
+
+    public CurrencyService(CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
+    }
 
     public ResponseEntity<? extends APIResponse<?>> getAllCurrencies() {
         try {
@@ -176,5 +195,42 @@ public class CurrencyService {
             APIResponse<?> body = APIResponse.error("Error occurred while updating the currency!");
             return ResponseEntity.internalServerError().body(body);
         }
+    }
+
+    public LiveCurrencyDTO fetchLiveCurrencyData() {
+        String currencies = currencyRepository.findAll()
+                .stream()
+                .map(Currency::getCurrencyName)
+                .collect(Collectors.joining(","));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("apikey", apiKey);
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+
+        String requestUrl = apiUrl + "?source=TRY&currencies=" + currencies;
+        ResponseEntity<LiveCurrencyDTO> response = restTemplate.exchange(requestUrl, HttpMethod.GET, httpEntity, LiveCurrencyDTO.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            return response.getBody();
+        } else {
+            throw new RuntimeException("Failed to fetch live currency data");
+        }
+    }
+
+    public void updateLiveCurrencyData() {
+        LiveCurrencyDTO fetched = fetchLiveCurrencyData();
+        LocalDateTime currentTimeMinusOneHour = LocalDateTime.now().minusHours(1);
+
+        fetched.getQuotes().forEach((k, v) -> {
+            String name = k.substring(3);
+            BigDecimal value = BigDecimal.ONE.divide(v, MathContext.DECIMAL64);
+            Currency currency = currencyRepository.findCurrencyByCurrencyName(name).orElseThrow();
+            // if the last update time is not later than 1 hour, do not update the currency rate.
+            if (currency.getUpdateTime().isBefore(currentTimeMinusOneHour)) {
+                currency.setCurrencyRate(value);
+                currencyRepository.saveAndFlush(currency);
+            }
+        });
     }
 }
