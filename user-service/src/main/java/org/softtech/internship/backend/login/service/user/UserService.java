@@ -89,7 +89,7 @@ public class UserService {
 
     private Map<String, Object> getData(User user) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiration = now.plusSeconds(EXPIRATION_TIME);
+        LocalDateTime expiration = now.plusNanos(EXPIRATION_TIME*1000000L);
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         Map<String, Object> data = new HashMap<>();
