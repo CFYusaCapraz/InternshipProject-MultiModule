@@ -1,4 +1,4 @@
-package org.softtech.internship.backend.login.service.user;
+package org.softtech.internship.backend.login.service;
 
 import org.softtech.internship.backend.login.model.user.User;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;

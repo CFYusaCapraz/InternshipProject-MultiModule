@@ -1,4 +1,4 @@
-package org.softtech.internship.backend.login.service.user;
+package org.softtech.internship.backend.login.service;
 
 import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.softtech.internship.backend.login.service.user.UserMapper.getData;
+import static org.softtech.internship.backend.login.service.UserMapper.getData;
 
 @Service
 @RequiredArgsConstructor

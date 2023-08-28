@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
 import org.softtech.internship.backend.login.model.user.dto.UserLoginDTO;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
-import org.softtech.internship.backend.login.service.user.UserService;
+import org.softtech.internship.backend.login.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
