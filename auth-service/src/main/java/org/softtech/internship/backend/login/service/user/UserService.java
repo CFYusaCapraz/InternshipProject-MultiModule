@@ -1,7 +1,5 @@
 package org.softtech.internship.backend.login.service.user;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
 import org.softtech.internship.backend.login.model.user.User;
@@ -9,24 +7,22 @@ import org.softtech.internship.backend.login.model.user.dto.UserLoginDTO;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
 import org.softtech.internship.backend.login.repository.UserRepository;
 import org.softtech.internship.backend.login.util.HashHandler;
-import org.softtech.internship.backend.login.util.KeyUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.softtech.internship.backend.login.util.JwtHandler.generateJwtToken;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private static final PrivateKey PRIVATE_KEY = KeyUtils.loadPrivateKeyFromResource("/private_key.pem");
     private static final Long EXPIRATION_TIME = 1000L * 60 * 60; // 1 hour
     private final UserRepository userRepository;
 
@@ -89,7 +85,7 @@ public class UserService {
 
     private Map<String, Object> getData(User user) {
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiration = now.plusNanos(EXPIRATION_TIME*1000000L);
+        LocalDateTime expiration = now.plusNanos(EXPIRATION_TIME * 1000000L);
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         Map<String, Object> data = new HashMap<>();
@@ -98,19 +94,5 @@ public class UserService {
         return data;
     }
 
-    public String generateJwtToken(String userId, String username) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
-        claims.put("username", username);
 
-        Date now = new Date();
-        Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(PRIVATE_KEY, SignatureAlgorithm.RS256)
-                .compact();
-    }
 }
