@@ -12,18 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.softtech.internship.backend.login.util.JwtHandler.generateJwtToken;
+import static org.softtech.internship.backend.login.service.user.UserMapper.getData;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private static final Long EXPIRATION_TIME = 1000L * 60 * 60; // 1 hour
+
     private final UserRepository userRepository;
 
     public ResponseEntity<? extends APIResponse<?>> login(UserLoginDTO loginDTO) {
@@ -82,17 +79,4 @@ public class UserService {
             return ResponseEntity.internalServerError().body(body);
         }
     }
-
-    private Map<String, Object> getData(User user) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiration = now.plusNanos(EXPIRATION_TIME * 1000000L);
-        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("token", generateJwtToken(user.getUserId().toString(), user.getUsername()));
-        data.put("expiration_time", expiration.format(timeFormat));
-        return data;
-    }
-
-
 }
