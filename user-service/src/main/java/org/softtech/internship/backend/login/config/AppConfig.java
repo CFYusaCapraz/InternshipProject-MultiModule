@@ -66,8 +66,8 @@ public class AppConfig {
     @Bean
     public CommandLineRunner  commandLineRunner(UserRepository  userRepository) {
         return args -> {
-            userRepository.save(User.builder().username("admin").password("admin").role(Role.ADMIN).build());
-            userRepository.save(User.builder().username("user").password("user").role(Role.USER).build());
+            userRepository.save(User.builder().username("admin").password(HashHandler.getHashedPassword("admin")).role(Role.ADMIN).build());
+            userRepository.save(User.builder().username("user").password(HashHandler.getHashedPassword("password")).role(Role.USER).build());
             userRepository.flush();
         };
     }
