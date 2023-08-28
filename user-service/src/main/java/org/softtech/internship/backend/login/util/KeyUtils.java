@@ -38,7 +38,6 @@ public class KeyUtils {
             byte[] keyBytes = inputStream.readAllBytes();
             inputStream.close();
 
-            // Remove the "BEGIN/END PRIVATE KEY" header and footer, and any newlines
             String privateKeyPEM = new String(keyBytes)
                     .replace("-----BEGIN PRIVATE KEY-----", "")
                     .replace("-----END PRIVATE KEY-----", "")
