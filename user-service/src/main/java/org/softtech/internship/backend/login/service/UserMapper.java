@@ -25,9 +25,18 @@ public class UserMapper {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiration = now.plusNanos(EXPIRATION_TIME * 1000000L);
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        Map<String, String> extraClaims = new HashMap<>();
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String role = user.getRole().name();
+
+        extraClaims.put("username", username);
+        extraClaims.put("password", password);
+        extraClaims.put("role", role);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("token", jwtHandler.generateJwtToken(user, null, null));
+        data.put("token", jwtHandler.generateJwtToken(user, null, extraClaims));
         data.put("expiration_time", expiration.format(timeFormat));
         return data;
     }
