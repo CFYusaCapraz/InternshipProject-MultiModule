@@ -24,7 +24,9 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+                    authorizationManagerRequestMatcherRegistry.requestMatchers("/api/user/getuser").authenticated();
                     authorizationManagerRequestMatcherRegistry.requestMatchers("/api/user/**").permitAll();
+                    authorizationManagerRequestMatcherRegistry.requestMatchers("/swagger-ui/**").permitAll();
                     authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
                 }).sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider)

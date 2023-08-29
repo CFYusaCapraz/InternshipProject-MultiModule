@@ -18,7 +18,7 @@ public class JwtHandler {
     private static final Long EXPIRATION_TIME = 1000L * 60 * 60; // 1 hour
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        String username = extractClaim(token, Claims::getSubject);
+        String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
@@ -32,6 +32,11 @@ public class JwtHandler {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public String extractUsername(String token) {
+        Claims claims = getClaims(token);
+        return (String) claims.get("username");
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

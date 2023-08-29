@@ -23,4 +23,9 @@ public class UserController {
     public ResponseEntity<? extends APIResponse<?>> register(@RequestBody UserRegisterDTO registerDTO) {
         return userService.register(registerDTO);
     }
+
+    @GetMapping(path = "/getuser")
+    public String getUser() {
+        return "Hello World";
+    }
 }
