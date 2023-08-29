@@ -51,11 +51,12 @@ public class JwtHandler {
         }
     }
 
-    public String generateJwtToken(UserDetails userDetails, @Nullable String userId, @Nullable Map<String, Object> extraClaims) {
+    public String generateJwtToken(UserDetails userDetails, @Nullable String userId, @Nullable Map<String, ?> extraClaims) {
         PrivateKey privateKey = loadPrivateKeyFromResource("/private_key.pem");
 
         Date now = new Date();
         Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
+        extraClaims = extraClaims == null ? Map.of() : extraClaims;
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
