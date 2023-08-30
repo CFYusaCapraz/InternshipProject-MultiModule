@@ -8,6 +8,9 @@ import org.softtech.internship.backend.login.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -24,8 +27,10 @@ public class UserController {
         return userService.register(registerDTO);
     }
 
-    @GetMapping(path = "/getuser")
-    public String getUser() {
-        return "Hello World";
+    @GetMapping(path = "/all-users")
+    public List<Map<String, String>> allUsers() {
+        return userService.getAllUsers();
     }
+
+
 }

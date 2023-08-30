@@ -3,7 +3,7 @@ package org.softtech.internship.backend.login.service;
 import org.softtech.internship.backend.login.model.user.User;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
 import org.softtech.internship.backend.login.util.HashHandler;
-import org.softtech.internship.backend.login.util.JwtHandler;
+import org.softtech.internship.backend.login.util.JwtUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class UserMapper {
     private static final Long EXPIRATION_TIME = 1000L * 60 * 60; // 1 hour
-    private static final JwtHandler jwtHandler = new JwtHandler();
+    private static final JwtUtils JWT_UTILS = new JwtUtils();
 
     public static User registerMapper(UserRegisterDTO registerDTO) {
         return User.builder()
@@ -36,7 +36,7 @@ public class UserMapper {
         extraClaims.put("role", role);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("token", jwtHandler.generateJwtToken(user, null, extraClaims));
+        data.put("token", JWT_UTILS.generateJwtToken(user, null, extraClaims));
         data.put("expiration_time", expiration.format(timeFormat));
         return data;
     }

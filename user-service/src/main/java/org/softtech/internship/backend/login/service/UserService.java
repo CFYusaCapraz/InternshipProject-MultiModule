@@ -10,11 +10,11 @@ import org.softtech.internship.backend.login.util.HashHandler;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ import static org.softtech.internship.backend.login.service.UserMapper.getData;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
+    private final WebClient.Builder builder;
 
     public ResponseEntity<? extends APIResponse<?>> login(UserLoginDTO loginDTO) {
         try {
@@ -39,7 +39,6 @@ public class UserService {
                 if (user.isPresent()) {
                     String hashedPassword = HashHandler.getHashedPassword(password);
                     if (hashedPassword.equals(user.get().getPassword())) {
-                        authenticate(loginDTO.getUsername(), loginDTO.getPassword());
                         Map<String, Object> data = getData(user.get());
                         APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Login success");
                         return ResponseEntity.ok(body);
@@ -52,9 +51,6 @@ public class UserService {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
                 }
             }
-        } catch (AuthenticationException e) {
-            APIResponse<?> body = APIResponse.error("Authentication error!");
-            return ResponseEntity.internalServerError().body(body);
         } catch (Exception e) {
             APIResponse<?> body = APIResponse.error("Error occurred while logging in!");
             return ResponseEntity.internalServerError().body(body);
@@ -71,7 +67,7 @@ public class UserService {
             } else {
                 User registeredUser = UserMapper.registerMapper(registerDTO);
                 userRepository.saveAndFlush(registeredUser);
-                authenticate(registerDTO.getUsername(), registerDTO.getPassword());
+                triggerUserRefreshInApiGateway();
                 Map<String, Object> data = getData(registeredUser);
                 APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Registration success");
                 return ResponseEntity.status(HttpStatus.CREATED).body(body);
@@ -79,17 +75,38 @@ public class UserService {
         } catch (DataIntegrityViolationException e) {
             APIResponse<?> body = APIResponse.error("User already exists!");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
-        } catch (AuthenticationException e) {
-            APIResponse<?> body = APIResponse.error("Authentication error!");
-            return ResponseEntity.internalServerError().body(body);
-        } catch (Exception e) {
+        }  catch (Exception e) {
             APIResponse<?> body = APIResponse.error("Error occurred while registering!");
             return ResponseEntity.internalServerError().body(body);
         }
     }
 
-    public void authenticate(String username, String password) throws AuthenticationException {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        authenticationManager.authenticate(authenticationToken);
+    public List<Map<String, String>> getAllUsers() {
+        try {
+            List<User> userList = userRepository.findAllByIsDeletedIsFalse();
+            if (userList != null && !userList.isEmpty()) {
+                List<Map<String, String>> list = new ArrayList<>();
+                for (User user : userList) {
+                    list.add(Map.of(
+                            "username", user.getUsername(),
+                            "password", user.getPassword(),
+                            "role", user.getRole().toString()
+                    ));
+                }
+                return list;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    private void triggerUserRefreshInApiGateway() {
+        builder.build()
+                .post()
+                .uri("http://api-gateway/api/gateway/refresh/users")
+                .retrieve()
+                .bodyToMono(Void.class)
+                .block();
     }
 }
