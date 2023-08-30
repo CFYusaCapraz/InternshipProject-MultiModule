@@ -27,21 +27,20 @@ public class GatewayConfig {
     }
 
     private void loadUsers() {
-        User[] users = webClientBuilder.build()
+        webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9001/api/user/all-users")
+                .uri("lb://user-service/api/user/all-users")
                 .retrieve()
                 .bodyToMono(User[].class)
-                .block();
-        if (users != null) {
-            userDatabase.clear();
-            for (User user : users) {
-                userDatabase.put(user.getUsername(), user);
-            }
-        }
+                .subscribe(users1 -> {
+                    userDatabase.clear();
+                    for (User user : users1) {
+                        userDatabase.put(user.getUsername(), user);
+                    }
+                });
     }
 
-    public void refreshUsers(){
+    public void refreshUsers() {
         loadUsers();
     }
 
@@ -49,10 +48,10 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("user-service", r -> r.path("/api/user/**")
-                        .uri("http://localhost:9001"))
+                        .uri("lb://user-service"))
                 .route("inventory-service", r -> r.path("/api/inventory/**")
                         .filters(f -> f.filter(jwtValidationFilter()))
-                        .uri("http://localhost:9001"))
+                        .uri("lb://inventory-service"))
                 .build();
     }
 
