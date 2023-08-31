@@ -387,6 +387,10 @@ public class HyperMethod {
         }
     }
     
+    public static void logout(){
+        JWT_TOKEN = "";
+    }
+    
     private static void setAuthToken(HttpRequestBase requestBase){
         requestBase.setHeader("Authorization", String.format("Bearer %s", JWT_TOKEN));
     }
