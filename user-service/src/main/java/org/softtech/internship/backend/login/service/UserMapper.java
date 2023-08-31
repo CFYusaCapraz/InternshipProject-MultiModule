@@ -1,5 +1,6 @@
 package org.softtech.internship.backend.login.service;
 
+import org.softtech.internship.backend.login.model.user.Role;
 import org.softtech.internship.backend.login.model.user.User;
 import org.softtech.internship.backend.login.model.user.dto.UserRegisterDTO;
 import org.softtech.internship.backend.login.util.HashHandler;
@@ -18,6 +19,7 @@ public class UserMapper {
         return User.builder()
                 .username(registerDTO.getUsername())
                 .password(HashHandler.getHashedPassword(registerDTO.getPassword()))
+                .role(Role.valueOf(registerDTO.getRole().toUpperCase()))
                 .build();
     }
 

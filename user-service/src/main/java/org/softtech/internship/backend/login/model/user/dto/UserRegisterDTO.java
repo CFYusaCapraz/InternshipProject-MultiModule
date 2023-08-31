@@ -10,4 +10,5 @@ import lombok.*;
 public class UserRegisterDTO {
     private String username;
     private String password;
+    private String role;
 }
