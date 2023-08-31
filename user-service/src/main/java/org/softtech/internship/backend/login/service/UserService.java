@@ -103,8 +103,8 @@ public class UserService {
 
     private void triggerUserRefreshInApiGateway() {
         builder.build()
-                .post()
-                .uri("http://api-gateway/api/gateway/refresh/users")
+                .get()
+                .uri("http://localhost:8080/api/gateway/refresh/users")
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();
