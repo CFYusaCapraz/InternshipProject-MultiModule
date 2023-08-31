@@ -25,8 +25,10 @@ public class JwtUtils {
     public boolean validateToken(String token, User user) {
         String username = extractUsername(token);
         String password = extractPassword(token);
+        String role = extractRole(token);
         return username.equals(user.getUsername())
                 && password.equals(user.getPassword())
+                && role.equals(user.getRole())
                 && !isTokenExpired(token);
     }
 
@@ -44,10 +46,14 @@ public class JwtUtils {
         return claims.get("username", String.class);
     }
 
-
     public String extractPassword(String token) {
         Claims claims = getClaims(token);
         return claims.get("password", String.class);
+    }
+
+    public String extractRole(String token) {
+        Claims claims = getClaims(token);
+        return claims.get("role", String.class);
     }
 
     public Claims getClaims(String token) {
