@@ -29,7 +29,7 @@ public class GatewayConfig {
     private void loadUsers() {
         webClientBuilder.build()
                 .get()
-                .uri("lb://user-service/api/user/all-users")
+                .uri("http://localhost:9999/api/user/all-users")
                 .retrieve()
                 .bodyToMono(User[].class)
                 .subscribe(users1 -> {
