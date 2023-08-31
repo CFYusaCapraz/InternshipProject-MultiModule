@@ -4,6 +4,7 @@
  */
 package org.softtech.internship.frontend.gui;
 
+import org.softtech.internship.frontend.dto.LoginDTO;
 import org.softtech.internship.frontend.hm.HyperMethod;
 
 /**
@@ -117,7 +118,15 @@ public class LoginFrame extends javax.swing.JFrame {
         String username = jTextFieldUsername.getText();
         String password = String.valueOf(jPasswordFieldPassword.getPassword());
         if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-            HyperMethod.login(username, password);
+            LoginDTO loginDTO = LoginDTO.builder()
+                    .username(username)
+                    .password(password)
+                    .build();
+            if (HyperMethod.login(loginDTO)) {
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+                dispose();
+            }
         }
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
