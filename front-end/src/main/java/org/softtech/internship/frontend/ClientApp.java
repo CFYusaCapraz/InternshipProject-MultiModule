@@ -1,10 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
-
 package org.softtech.internship.frontend;
 
-import org.softtech.internship.frontend.gui.MainFrame;
+import org.softtech.internship.frontend.gui.LoginFrame;
 
 /**
  *
@@ -13,7 +12,7 @@ import org.softtech.internship.frontend.gui.MainFrame;
 public class ClientApp {
 
     public static void main(String[] args) {
-        MainFrame MainFrame = new MainFrame();
-        MainFrame.setVisible(true);
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
     }
 }
