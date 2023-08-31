@@ -344,4 +344,30 @@ public class HyperMethod {
             return false;
         }
     }
+
+    public static boolean login(LoginDTO loginDTO) {
+        try {
+            String urlStr = HOST_URL.concat("user/login");
+            HttpClient httpClient = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost(urlStr);
+            httpPost.setHeader("Content-Type", "application/json");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonPayload = objectMapper.writeValueAsString(loginDTO);
+            StringEntity entity = new StringEntity(jsonPayload);
+            httpPost.setEntity(entity);
+            HttpResponse response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                String responseBodyJson = EntityUtils.toString(response.getEntity());
+                Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
+                LinkedHashMap<String, String> data = (LinkedHashMap) responseBody.get("data");
+                JWT_TOKEN = (String) data.get("token");
+                return true;
+            }
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(HyperMethod.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 }
