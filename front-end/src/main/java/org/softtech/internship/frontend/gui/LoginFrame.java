@@ -4,6 +4,8 @@
  */
 package org.softtech.internship.frontend.gui;
 
+import org.softtech.internship.frontend.hm.HyperMethod;
+
 /**
  *
  * @author yusa
@@ -34,22 +36,44 @@ public class LoginFrame extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 50), new java.awt.Dimension(0, 50), new java.awt.Dimension(32767, 50));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("SOFTTECH Internship Project - Client Side");
+        setTitle("LOGIN");
         setPreferredSize(new java.awt.Dimension(300, 500));
 
         jPanelMain.setLayout(new java.awt.GridLayout(0, 1, 0, 25));
 
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("LOGIN");
         jPanelMain.add(jLabel1);
 
         jTextFieldUsername.setText("Username");
+        jTextFieldUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextFieldUsernameFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTextFieldUsernameFocusLost(evt);
+            }
+        });
         jPanelMain.add(jTextFieldUsername);
 
         jPasswordFieldPassword.setText("Password");
+        jPasswordFieldPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPasswordFieldPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPasswordFieldPasswordFocusLost(evt);
+            }
+        });
         jPanelMain.add(jPasswordFieldPassword);
 
         jButtonLogin.setText("LOGIN");
+        jButtonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLoginActionPerformed(evt);
+            }
+        });
         jPanelMain.add(jButtonLogin);
         jPanelMain.add(filler1);
 
@@ -67,6 +91,35 @@ public class LoginFrame extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(310, 430));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsernameFocusGained
+        if (jTextFieldUsername.getText().equals("Username")) {
+            jTextFieldUsername.setText("");
+        }
+    }//GEN-LAST:event_jTextFieldUsernameFocusGained
+
+    private void jTextFieldUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldUsernameFocusLost
+        if (jTextFieldUsername.getText().isEmpty())
+            jTextFieldUsername.setText("Username");
+    }//GEN-LAST:event_jTextFieldUsernameFocusLost
+
+    private void jPasswordFieldPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldPasswordFocusGained
+        if (String.valueOf(jPasswordFieldPassword.getPassword()).equals("Password"))
+            jPasswordFieldPassword.setText("");
+    }//GEN-LAST:event_jPasswordFieldPasswordFocusGained
+
+    private void jPasswordFieldPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordFieldPasswordFocusLost
+        if (String.valueOf(jPasswordFieldPassword.getPassword()).isEmpty())
+            jPasswordFieldPassword.setText("Password");
+    }//GEN-LAST:event_jPasswordFieldPasswordFocusLost
+
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
+        String username = jTextFieldUsername.getText();
+        String password = String.valueOf(jPasswordFieldPassword.getPassword());
+        if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+            HyperMethod.login(username, password);
+        }
+    }//GEN-LAST:event_jButtonLoginActionPerformed
 
     /**
      * @param args the command line arguments
