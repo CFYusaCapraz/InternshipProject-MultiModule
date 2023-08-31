@@ -20,6 +20,7 @@ import java.util.Map;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.softtech.internship.frontend.Currency;
 import org.softtech.internship.frontend.Material;
@@ -27,6 +28,7 @@ import org.softtech.internship.frontend.Recipe;
 import org.softtech.internship.frontend.RecipeMaterial;
 import org.softtech.internship.frontend.dto.CurrencyAddDTO;
 import org.softtech.internship.frontend.dto.CurrencyUpdateDTO;
+import org.softtech.internship.frontend.dto.LoginDTO;
 import org.softtech.internship.frontend.dto.MaterialAddDTO;
 import org.softtech.internship.frontend.dto.MaterialUpdateDTO;
 import org.softtech.internship.frontend.dto.RecipeAddDTO;
@@ -42,6 +44,8 @@ public class HyperMethod {
     private static List<Material> materials = new ArrayList<>();
     private static List<Currency> currencies = new ArrayList<>();
     private static List<Recipe> recipes = new ArrayList<>();
+    
+    private static String JWT_TOKEN = "";
 
     private static void getAllMaterials() {
         try {
@@ -49,6 +53,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat("inventory/materials");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
+            setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
             String responseBodyJson = EntityUtils.toString(response.getEntity());
@@ -82,6 +87,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat("inventory/currencies");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
+            setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
             String responseBodyJson = EntityUtils.toString(response.getEntity());
@@ -113,6 +119,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat("inventory/recipes");
             HttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet(urlStr);
+            setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
             String responseBodyJson = EntityUtils.toString(response.getEntity());
@@ -167,6 +174,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat(String.format("inventory/materials/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
+            setAuthToken(httpDel);
             HttpResponse response = httpClient.execute(httpDel);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
@@ -184,6 +192,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat(String.format("inventory/currencies/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
+            setAuthToken(httpDel);
             HttpResponse response = httpClient.execute(httpDel);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
@@ -201,6 +210,7 @@ public class HyperMethod {
             String urlStr = HOST_URL.concat(String.format("inventory/recipes/delete?id=%s", id));
             HttpClient httpClient = HttpClients.createDefault();
             HttpDelete httpDel = new HttpDelete(urlStr);
+            setAuthToken(httpDel);
             HttpResponse response = httpClient.execute(httpDel);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
@@ -219,6 +229,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPost);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(materialAddDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -241,6 +252,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPost);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(currencyAddDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -263,6 +275,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(urlStr);
             httpPost.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPost);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(recipeAddDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -285,6 +298,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPut);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(materialUpdateDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -307,6 +321,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPut);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(currencyUpdateDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -329,6 +344,7 @@ public class HyperMethod {
             HttpClient httpClient = HttpClients.createDefault();
             HttpPut httpPut = new HttpPut(urlStr);
             httpPut.setHeader("Content-Type", "application/json");
+            setAuthToken(httpPut);
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonPayload = objectMapper.writeValueAsString(recipeUpdateDTO);
             StringEntity entity = new StringEntity(jsonPayload);
@@ -369,5 +385,9 @@ public class HyperMethod {
             Logger.getLogger(HyperMethod.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+    
+    private static void setAuthToken(HttpRequestBase requestBase){
+        requestBase.setHeader("Authorization", String.format("Bearer %s", JWT_TOKEN));
     }
 }
