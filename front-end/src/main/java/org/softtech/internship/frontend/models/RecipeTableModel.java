@@ -4,6 +4,7 @@
  */
 package org.softtech.internship.frontend.models;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -80,10 +81,19 @@ public class RecipeTableModel extends AbstractTableModel {
                                     .findFirst()
                                     .ifPresent(c::set);
                             Double rate = c.get().getRate();
-                            price.updateAndGet(v -> v + unitPrice * rate);
+                            price.updateAndGet(v -> v + (unitPrice * rate * recipeMaterial.getQuantity()));
 
                         });
-                return String.format("%.3f TL", price.get());
+                DecimalFormat df = new DecimalFormat("#,##0.00");
+
+                // If the number is greater than or equal to 1000, use the thousands separator
+                if (Math.abs(price.get()) >= 1000) {
+                    return df.format(price.get()) + " TL";
+                } else {
+                    // If the number is less than 1000, format it without the thousands separator
+                    df.applyPattern("0.00");
+                    return df.format(price.get()) + " TL";
+                }
             }
 
             default -> {
