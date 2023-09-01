@@ -56,10 +56,10 @@ public class HyperMethod {
             setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
-            String responseBodyJson = EntityUtils.toString(response.getEntity());
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
             if (statusCode == 200) {
+                String responseBodyJson = EntityUtils.toString(response.getEntity());
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
                 ArrayList data = (ArrayList) responseBody.get("data");
                 for (Object row : data) {
                     LinkedHashMap<String, ?> nRow = (LinkedHashMap) row;
@@ -90,10 +90,10 @@ public class HyperMethod {
             setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
-            String responseBodyJson = EntityUtils.toString(response.getEntity());
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
             if (statusCode == 200) {
+                String responseBodyJson = EntityUtils.toString(response.getEntity());
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
                 ArrayList data = (ArrayList) responseBody.get("data");
                 for (Object row : data) {
                     LinkedHashMap<String, ?> nRow = (LinkedHashMap) row;
@@ -122,10 +122,10 @@ public class HyperMethod {
             setAuthToken(httpGet);
             HttpResponse response = httpClient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
-            String responseBodyJson = EntityUtils.toString(response.getEntity());
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
             if (statusCode == 200) {
+                String responseBodyJson = EntityUtils.toString(response.getEntity());
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> responseBody = objectMapper.readValue(responseBodyJson, Map.class);
                 ArrayList data = (ArrayList) responseBody.get("data");
                 for (Object row : data) {
                     LinkedHashMap<String, ?> nRow = (LinkedHashMap) row;
