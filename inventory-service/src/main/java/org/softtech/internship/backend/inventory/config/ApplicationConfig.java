@@ -19,34 +19,34 @@ public class ApplicationConfig {
         return args -> {
             Currency eur = Currency.builder()
                     .currencyName("EUR")
-                    .currencyRate(BigDecimal.valueOf(1.00))
+                    .currencyRate(BigDecimal.valueOf(25.87d))
                     .build();
             Currency usd = Currency.builder()
                     .currencyName("USD")
-                    .currencyRate(BigDecimal.valueOf(1.00))
+                    .currencyRate(BigDecimal.valueOf(24.63d))
                     .build();
             Currency gbp = Currency.builder()
                     .currencyName("GBP")
-                    .currencyRate(BigDecimal.valueOf(1.00))
+                    .currencyRate(BigDecimal.valueOf(27.49d))
                     .build();
-            currencyRepository.saveAllAndFlush(List.of(eur,usd,gbp));
+            currencyRepository.saveAllAndFlush(List.of(eur, usd, gbp));
 
             Material gold = Material.builder()
                     .materialName("Gold")
-                    .unitPrice(BigDecimal.valueOf(1.00))
+                    .unitPrice(BigDecimal.valueOf(5.23d))
                     .currency(eur)
                     .build();
             Material silver = Material.builder()
                     .materialName("Silver")
-                    .unitPrice(BigDecimal.valueOf(2.00))
+                    .unitPrice(BigDecimal.valueOf(3.68d))
                     .currency(usd)
                     .build();
             Material bronze = Material.builder()
                     .materialName("Bronze")
-                    .unitPrice(BigDecimal.valueOf(3.00))
+                    .unitPrice(BigDecimal.valueOf(1.975d))
                     .currency(gbp)
                     .build();
-            materialRepository.saveAllAndFlush(List.of(gold,silver,bronze));
+            materialRepository.saveAllAndFlush(List.of(gold, silver, bronze));
         };
     }
 }
