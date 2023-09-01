@@ -1,10 +1,10 @@
 package org.softtech.internship.backend.inventory.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.softtech.internship.backend.inventory.model.APIResponse;
 import org.softtech.internship.backend.inventory.model.currency.dto.CurrencyCreateDTO;
 import org.softtech.internship.backend.inventory.model.currency.dto.CurrencyUpdateDTO;
 import org.softtech.internship.backend.inventory.service.currency.CurrencyService;
-import org.softtech.internship.backend.inventory.model.APIResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +46,14 @@ public class CurrencyController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping(path = "/update/{id}")
     public ResponseEntity<? extends APIResponse<?>> update(@PathVariable String id,
                                                            @RequestBody CurrencyUpdateDTO updateDTO) {
         return currencyService.updateCurrency(id, updateDTO);
+    }
+
+    @GetMapping(path = "/refresh")
+    public ResponseEntity<? extends APIResponse<?>> refresh(){
+        return currencyService.refresh();
     }
 }

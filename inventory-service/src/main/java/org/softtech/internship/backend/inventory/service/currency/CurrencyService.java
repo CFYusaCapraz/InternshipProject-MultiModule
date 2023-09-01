@@ -9,8 +9,6 @@ import org.softtech.internship.backend.inventory.model.currency.dto.LiveCurrency
 import org.softtech.internship.backend.inventory.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,9 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -197,6 +193,21 @@ public class CurrencyService {
         }
     }
 
+    public ResponseEntity<? extends APIResponse<?>> refresh() {
+        try {
+            if (updateLiveCurrencyData()) {
+                APIResponse<?> body = APIResponse.success("Successfully refreshed currencies");
+                return ResponseEntity.ok(body);
+            } else {
+                APIResponse<?> body = APIResponse.error("Could not refresh successfully!");
+                return ResponseEntity.internalServerError().body(body);
+            }
+        } catch (Exception e) {
+            APIResponse<?> body = APIResponse.error("Error occurred while refreshing currencies!");
+            return ResponseEntity.internalServerError().body(body);
+        }
+    }
+
     public LiveCurrencyDTO fetchLiveCurrencyData() {
         String currencies = currencyRepository.findAll()
                 .stream()
@@ -218,19 +229,25 @@ public class CurrencyService {
         }
     }
 
-    public void updateLiveCurrencyData() {
-        LiveCurrencyDTO fetched = fetchLiveCurrencyData();
-        LocalDateTime currentTimeMinusOneHour = LocalDateTime.now().minusHours(1);
+    public boolean updateLiveCurrencyData() {
+        try {
+            LiveCurrencyDTO fetched = fetchLiveCurrencyData();
+            LocalDateTime currentTimeMinusOneHour = LocalDateTime.now().minusSeconds(5);
 
-        fetched.getQuotes().forEach((k, v) -> {
-            String name = k.substring(3);
-            BigDecimal value = BigDecimal.ONE.divide(v, MathContext.DECIMAL64);
-            Currency currency = currencyRepository.findCurrencyByCurrencyName(name).orElseThrow();
-            // if the last update time is not later than 1 hour, do not update the currency rate.
-            if (currency.getUpdateTime().isBefore(currentTimeMinusOneHour)) {
-                currency.setCurrencyRate(value);
-                currencyRepository.saveAndFlush(currency);
-            }
-        });
+            fetched.getQuotes().forEach((k, v) -> {
+                String name = k.substring(3);
+                BigDecimal value = BigDecimal.ONE.divide(v, MathContext.DECIMAL64);
+                Currency currency = currencyRepository.findCurrencyByCurrencyName(name).orElseThrow();
+                // if the last update time is not later than 1 hour, do not update the currency rate.
+                if (currency.getUpdateTime().isBefore(currentTimeMinusOneHour)) {
+                    currency.setCurrencyRate(value);
+                    currencyRepository.saveAndFlush(currency);
+                }
+            });
+            return true;
+        } catch (Exception E) {
+            return false;
+        }
     }
+
 }
