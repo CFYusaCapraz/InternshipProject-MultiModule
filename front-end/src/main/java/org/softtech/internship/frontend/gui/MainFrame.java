@@ -119,6 +119,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonUpdateC = new javax.swing.JButton();
         jButtonDeleteC = new javax.swing.JButton();
         jButtonClearC = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SOFTTECH Internship Project - Client Side");
@@ -496,6 +497,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("REFRESH");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCurrencyInfoLayout = new javax.swing.GroupLayout(jPanelCurrencyInfo);
         jPanelCurrencyInfo.setLayout(jPanelCurrencyInfoLayout);
         jPanelCurrencyInfoLayout.setHorizontalGroup(
@@ -503,27 +511,35 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
                 .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCurrencyName)
-                            .addComponent(jLabelCurrencyRate))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldCurrencyRate, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(jTextFieldCurrencyName)))
-                    .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonClearC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonDeleteC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonUpdateC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonAddC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                            .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelCurrencyName)
+                                    .addComponent(jLabelCurrencyRate))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextFieldCurrencyRate, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldCurrencyName)))
+                            .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
+                                .addGap(138, 138, 138)
+                                .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButtonClearC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonDeleteC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonUpdateC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonAddC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 20, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurrencyInfoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         jPanelCurrencyInfoLayout.setVerticalGroup(
             jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
-                .addGap(146, 146, 146)
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(110, 110, 110)
                 .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCurrencyName)
                     .addComponent(jTextFieldCurrencyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -704,7 +720,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonIncludeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncludeActionPerformed
         int selectedIndex = jListExcluded.getSelectedIndex();
         if (selectedIndex != -1) {
-            try{
+            try {
                 RecipeMaterial m = excludedListModel.getMaterialList().get(selectedIndex);
                 excludedListModel.removeElement(m);
                 List<RecipeMaterial> materialList1 = includedListModel.getMaterialList();
@@ -713,7 +729,7 @@ public class MainFrame extends javax.swing.JFrame {
                 materialList1.add(m);
                 includedListModel.setMaterialList(materialList1);
                 update();
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -804,7 +820,22 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonUpdateRActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (HyperMethod.refresh()) {
+            update();
+            jTextFieldCurrencyName.setText("");
+            jTextFieldCurrencyRate.setText("");
+            selectedCurrencyID = "";
+        } else {
+            JOptionPane.showMessageDialog(rootPane,
+                    "Could not refresh to live currency data!",
+                    "WARNING",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAddC;
     private javax.swing.JButton jButtonAddM;
     private javax.swing.JButton jButtonAddR;
