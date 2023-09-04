@@ -9,6 +9,7 @@ import org.softtech.internship.backend.login.repository.UserRepository;
 import org.softtech.internship.backend.login.util.HashHandler;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -40,6 +41,8 @@ public class UserService {
                     String hashedPassword = HashHandler.getHashedPassword(password);
                     if (hashedPassword.equals(user.get().getPassword())) {
                         Map<String, Object> data = getData(user.get());
+                        String token = (String) data.get("token");
+                        addTokenToContext(token);
                         APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Login success");
                         return ResponseEntity.ok(body);
                     } else {
@@ -69,13 +72,15 @@ public class UserService {
                 userRepository.saveAndFlush(registeredUser);
                 triggerUserRefreshInApiGateway();
                 Map<String, Object> data = getData(registeredUser);
+                String token = (String) data.get("token");
+                addTokenToContext(token);
                 APIResponse<Map<String, Object>> body = APIResponse.successWithData(data, "Registration success");
                 return ResponseEntity.status(HttpStatus.CREATED).body(body);
             }
         } catch (DataIntegrityViolationException e) {
             APIResponse<?> body = APIResponse.error("User already exists!");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             APIResponse<?> body = APIResponse.error("Error occurred while registering!");
             return ResponseEntity.internalServerError().body(body);
         }
@@ -107,6 +112,18 @@ public class UserService {
                 .uri("http://localhost:8080/api/gateway/refresh/users")
                 .retrieve()
                 .bodyToMono(Void.class)
+                .block();
+    }
+
+    private void addTokenToContext(String token) {
+        String payload = "{\"token\": \"" + token + "\"}";
+        builder.build()
+                .post()
+                .uri("http://localhost:8080/api/gateway/add/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(payload)
+                .retrieve()
+                .toBodilessEntity()
                 .block();
     }
 }

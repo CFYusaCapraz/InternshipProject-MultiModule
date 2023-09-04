@@ -1,5 +1,6 @@
 package org.softtech.internship.backend.apigateway.config;
 
+import lombok.Getter;
 import org.softtech.internship.backend.apigateway.model.User;
 import org.softtech.internship.backend.apigateway.util.JwtUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,6 +23,7 @@ public class GatewayConfig {
     private final WebClient.Builder webClientBuilder;
     private final JwtUtils jwtUtils;
     private final Map<String, User> userDatabase = new ConcurrentHashMap<>();
+    private final List<String> tokenDatabase = new ArrayList<>();
 
     public GatewayConfig(WebClient.Builder builder, JwtUtils utilTool) {
         this.webClientBuilder = builder;
@@ -45,6 +49,15 @@ public class GatewayConfig {
         loadUsers();
     }
 
+    public boolean addToken(String token) {
+        return tokenDatabase.add(token);
+    }
+
+    private boolean isTokenRegistered(String token) {
+        return tokenDatabase.stream()
+                .anyMatch(s -> s.equals(token));
+    }
+
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
@@ -62,11 +75,13 @@ public class GatewayConfig {
         return (exchange, chain) -> {
             String token = jwtUtils.extractTokenFromRequest(exchange);
             if (token != null) {
-                String username = jwtUtils.extractUsername(token);
-                if (username != null && userDatabase.containsKey(username)) {
-                    User user = userDatabase.get(username);
-                    if (user != null && jwtUtils.validateToken(token, user)) {
-                        return chain.filter(exchange);
+                if (isTokenRegistered(token)) {
+                    String username = jwtUtils.extractUsername(token);
+                    if (username != null && userDatabase.containsKey(username)) {
+                        User user = userDatabase.get(username);
+                        if (user != null && jwtUtils.validateToken(token, user)) {
+                            return chain.filter(exchange);
+                        }
                     }
                 }
             }
@@ -80,25 +95,27 @@ public class GatewayConfig {
         return (exchange, chain) -> {
             String token = jwtUtils.extractTokenFromRequest(exchange);
             if (token != null) {
-                String username = jwtUtils.extractUsername(token);
-                if (username != null && userDatabase.containsKey(username)) {
-                    User user = userDatabase.get(username);
-                    if (user != null && jwtUtils.validateToken(token, user)) {
-                        if (exchange.getRequest().getPath().toString().contains("currencies")) {
-                            String role = jwtUtils.extractRole(token);
-                            if (role != null && role.equalsIgnoreCase("ADMIN")) {
-                                return chain.filter(exchange);
-                            } else {
-                                HttpMethod method = exchange.getRequest().getMethod();
-                                if (method == HttpMethod.PUT || method == HttpMethod.POST || method == HttpMethod.DELETE) {
-                                    exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                                    return exchange.getResponse().setComplete();
-                                }else {
+                if (isTokenRegistered(token)) {
+                    String username = jwtUtils.extractUsername(token);
+                    if (username != null && userDatabase.containsKey(username)) {
+                        User user = userDatabase.get(username);
+                        if (user != null && jwtUtils.validateToken(token, user)) {
+                            if (exchange.getRequest().getPath().toString().contains("currencies")) {
+                                String role = jwtUtils.extractRole(token);
+                                if (role != null && role.equalsIgnoreCase("ADMIN")) {
                                     return chain.filter(exchange);
+                                } else {
+                                    HttpMethod method = exchange.getRequest().getMethod();
+                                    if (method == HttpMethod.PUT || method == HttpMethod.POST || method == HttpMethod.DELETE) {
+                                        exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                                        return exchange.getResponse().setComplete();
+                                    } else {
+                                        return chain.filter(exchange);
+                                    }
                                 }
+                            } else {
+                                return chain.filter(exchange);
                             }
-                        }else {
-                            return chain.filter(exchange);
                         }
                     }
                 }
