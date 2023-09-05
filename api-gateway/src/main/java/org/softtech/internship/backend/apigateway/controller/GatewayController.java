@@ -24,4 +24,11 @@ public class GatewayController {
             return ResponseEntity.ok().build();
         return ResponseEntity.internalServerError().build();
     }
+
+    @PostMapping(path = "/remove/token")
+    public ResponseEntity<Void> removeToken(@RequestBody String token) {
+        if (gatewayService.removeToken(token))
+            return ResponseEntity.ok().build();
+        return ResponseEntity.internalServerError().build();
+    }
 }

@@ -1,5 +1,6 @@
 package org.softtech.internship.backend.login.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
 import org.softtech.internship.backend.login.model.user.User;
@@ -14,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.softtech.internship.backend.login.service.UserMapper.getData;
 
@@ -106,6 +104,28 @@ public class UserService {
         return null;
     }
 
+    public ResponseEntity<? extends APIResponse<?>> logout(HttpServletRequest request) {
+        try {
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null && !authorization.isEmpty()) {
+                String token = authorization.substring(7);
+                ResponseEntity<Void> response = removeTokenFromContext(token);
+                if (Objects.requireNonNull(response).getStatusCode().isSameCodeAs(HttpStatus.OK)) {
+                    APIResponse<Map<String, Object>> body = APIResponse.success("Successfully logout");
+                    return ResponseEntity.ok(body);
+                } else {
+                    APIResponse<Map<String, Object>> body = APIResponse.error("Token is not exists!");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+                }
+            }
+            APIResponse<Map<String, Object>> body = APIResponse.error("No JWT Token found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+        } catch (Exception e) {
+            APIResponse<?> body = APIResponse.error("Error occurred while registering!");
+            return ResponseEntity.internalServerError().body(body);
+        }
+    }
+
     private void triggerUserRefreshInApiGateway() {
         builder.build()
                 .get()
@@ -126,4 +146,17 @@ public class UserService {
                 .toBodilessEntity()
                 .block();
     }
+
+    private ResponseEntity<Void> removeTokenFromContext(String token) {
+        String payload = "{\"token\": \"" + token + "\"}";
+        return builder.build()
+                .post()
+                .uri("http://localhost:8080/api/gateway/remove/token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(payload)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+    }
+
 }

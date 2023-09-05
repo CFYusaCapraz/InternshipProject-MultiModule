@@ -1,5 +1,6 @@
 package org.softtech.internship.backend.login.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.softtech.internship.backend.login.model.APIResponse;
 import org.softtech.internship.backend.login.model.user.dto.UserLoginDTO;
@@ -32,5 +33,8 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-
+    @GetMapping(path = "/logout")
+    public ResponseEntity<? extends APIResponse<?>> logout(HttpServletRequest request) {
+        return userService.logout(request);
+    }
 }

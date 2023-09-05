@@ -1,6 +1,8 @@
 package org.softtech.internship.backend.apigateway.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.softtech.internship.backend.apigateway.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -40,8 +42,12 @@ public class GatewayService {
         loadUsers();
     }
 
+    @SneakyThrows
     public boolean addToken(String token) {
-        return tokenDatabase.add(token);
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(token, Map.class);
+        String jwtToken = map.get("token");
+        return tokenDatabase.add(jwtToken);
     }
 
     public boolean isTokenRegistered(String token) {
@@ -49,4 +55,13 @@ public class GatewayService {
                 .anyMatch(s -> s.equals(token));
     }
 
+    @SneakyThrows
+    public boolean removeToken(String token) {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> map = mapper.readValue(token, Map.class);
+        String jwtToken = map.get("token");
+        boolean removed = tokenDatabase.remove(jwtToken);
+        refreshUsers();
+        return removed;
+    }
 }
