@@ -1,7 +1,7 @@
 package org.softtech.internship.backend.apigateway.config;
 
-import lombok.Getter;
 import org.softtech.internship.backend.apigateway.model.User;
+import org.softtech.internship.backend.apigateway.service.GatewayService;
 import org.softtech.internship.backend.apigateway.util.JwtUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -10,52 +10,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class GatewayConfig {
-
-    private final WebClient.Builder webClientBuilder;
     private final JwtUtils jwtUtils;
-    private final Map<String, User> userDatabase = new ConcurrentHashMap<>();
-    private final List<String> tokenDatabase = new ArrayList<>();
+    private final GatewayService gatewayService;
 
-    public GatewayConfig(WebClient.Builder builder, JwtUtils utilTool) {
-        this.webClientBuilder = builder;
-        this.jwtUtils = utilTool;
-        loadUsers();
-    }
-
-    private void loadUsers() {
-        webClientBuilder.build()
-                .get()
-                .uri("http://localhost:9999/api/user/all-users")
-                .retrieve()
-                .bodyToMono(User[].class)
-                .subscribe(users1 -> {
-                    userDatabase.clear();
-                    for (User user : users1) {
-                        userDatabase.put(user.getUsername(), user);
-                    }
-                });
-    }
-
-    public void refreshUsers() {
-        loadUsers();
-    }
-
-    public boolean addToken(String token) {
-        return tokenDatabase.add(token);
-    }
-
-    private boolean isTokenRegistered(String token) {
-        return tokenDatabase.stream()
-                .anyMatch(s -> s.equals(token));
+    public GatewayConfig(JwtUtils jwtUtils, GatewayService gatewayService) {
+        this.jwtUtils = jwtUtils;
+        this.gatewayService = gatewayService;
     }
 
     @Bean
@@ -75,10 +38,10 @@ public class GatewayConfig {
         return (exchange, chain) -> {
             String token = jwtUtils.extractTokenFromRequest(exchange);
             if (token != null) {
-                if (isTokenRegistered(token)) {
+                if (gatewayService.isTokenRegistered(token)) {
                     String username = jwtUtils.extractUsername(token);
-                    if (username != null && userDatabase.containsKey(username)) {
-                        User user = userDatabase.get(username);
+                    if (username != null && gatewayService.getUserDatabase().containsKey(username)) {
+                        User user = gatewayService.getUserDatabase().get(username);
                         if (user != null && jwtUtils.validateToken(token, user)) {
                             return chain.filter(exchange);
                         }
@@ -95,10 +58,10 @@ public class GatewayConfig {
         return (exchange, chain) -> {
             String token = jwtUtils.extractTokenFromRequest(exchange);
             if (token != null) {
-                if (isTokenRegistered(token)) {
+                if (gatewayService.isTokenRegistered(token)) {
                     String username = jwtUtils.extractUsername(token);
-                    if (username != null && userDatabase.containsKey(username)) {
-                        User user = userDatabase.get(username);
+                    if (username != null && gatewayService.getUserDatabase().containsKey(username)) {
+                        User user = gatewayService.getUserDatabase().get(username);
                         if (user != null && jwtUtils.validateToken(token, user)) {
                             if (exchange.getRequest().getPath().toString().contains("currencies")) {
                                 String role = jwtUtils.extractRole(token);
