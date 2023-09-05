@@ -119,6 +119,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonUpdateC = new javax.swing.JButton();
         jButtonDeleteC = new javax.swing.JButton();
         jButtonClearC = new javax.swing.JButton();
+        jButtonRefresh = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -217,8 +218,8 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanelMaterialInfoLayout.setVerticalGroup(
             jPanelMaterialInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMaterialInfoLayout.createSequentialGroup()
-                .addGap(146, 146, 146)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMaterialInfoLayout.createSequentialGroup()
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addGroup(jPanelMaterialInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelMaterialName)
                     .addComponent(jTextFieldMaterialName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,7 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButtonDeleteM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonClearM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(74, 74, 74))
         );
 
         javax.swing.GroupLayout jPanelMaterialLayout = new javax.swing.GroupLayout(jPanelMaterial);
@@ -249,7 +250,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanelMaterialLayout.setVerticalGroup(
             jPanelMaterialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addComponent(jScrollPaneMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(jPanelMaterialInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -424,7 +425,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanelRecipeInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonDeleteR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonClearR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelRecipeLayout = new javax.swing.GroupLayout(jPanelRecipe);
@@ -438,7 +439,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanelRecipeLayout.setVerticalGroup(
             jPanelRecipeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneRecipe, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addComponent(jScrollPaneRecipe, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
             .addComponent(jPanelRecipeInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -497,10 +498,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("REFRESH");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonRefresh.setText("REFRESH");
+        jButtonRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonRefreshActionPerformed(evt);
             }
         });
 
@@ -531,15 +532,15 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(0, 20, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCurrencyInfoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jButtonRefresh)))
                 .addContainerGap())
         );
         jPanelCurrencyInfoLayout.setVerticalGroup(
             jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCurrencyInfoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(110, 110, 110)
+                .addComponent(jButtonRefresh)
+                .addGap(43, 43, 43)
                 .addGroup(jPanelCurrencyInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCurrencyName)
                     .addComponent(jTextFieldCurrencyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -555,7 +556,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButtonDeleteC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonClearC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelCurrencyLayout = new javax.swing.GroupLayout(jPanelCurrency);
@@ -569,21 +570,36 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanelCurrencyLayout.setVerticalGroup(
             jPanelCurrencyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPaneCurrency, javax.swing.GroupLayout.DEFAULT_SIZE, 637, Short.MAX_VALUE)
+            .addComponent(jScrollPaneCurrency, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(jPanelCurrencyInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jTabbedPane.addTab("Currencies", jPanelCurrency);
+
+        jButton1.setText("LOGOUT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         setSize(new java.awt.Dimension(960, 720));
@@ -820,7 +836,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonUpdateRActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefreshActionPerformed
         if (HyperMethod.refresh()) {
             update();
             jTextFieldCurrencyName.setText("");
@@ -831,6 +847,15 @@ public class MainFrame extends javax.swing.JFrame {
                     "Could not refresh to live currency data!",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonRefreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(HyperMethod.logout())
+        {
+            dispose();
+            LoginFrame loginFrame = new LoginFrame();
+            loginFrame.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -847,6 +872,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDeleteR;
     private javax.swing.JButton jButtonExclude;
     private javax.swing.JButton jButtonInclude;
+    private javax.swing.JButton jButtonRefresh;
     private javax.swing.JButton jButtonUpdateC;
     private javax.swing.JButton jButtonUpdateM;
     private javax.swing.JButton jButtonUpdateR;

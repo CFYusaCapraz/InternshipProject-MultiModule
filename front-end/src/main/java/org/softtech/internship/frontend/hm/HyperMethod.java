@@ -406,8 +406,22 @@ public class HyperMethod {
         }
     }
     
-    public static void logout(){
-        JWT_TOKEN = "";
+    public static boolean logout(){
+        try {
+            String urlStr = HOST_URL.concat("user/logout");
+            HttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(urlStr);
+            setAuthToken(httpGet);
+            HttpResponse response = httpClient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                return true;
+            }
+            return false;
+        } catch (IOException ex) {
+            Logger.getLogger(HyperMethod.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     private static void setAuthToken(HttpRequestBase requestBase){
