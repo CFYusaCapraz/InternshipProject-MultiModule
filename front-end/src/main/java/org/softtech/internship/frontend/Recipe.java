@@ -24,4 +24,5 @@ public class Recipe {
     private String id;
     private String name;
     private List<RecipeMaterial> materials;
+    private Double price;
 }

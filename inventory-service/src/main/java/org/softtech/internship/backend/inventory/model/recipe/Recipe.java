@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.time.LocalDateTime.now;
 
@@ -32,6 +33,22 @@ public class Recipe {
     private Boolean isDeleted;
     @OneToMany(mappedBy = "recipe")
     private List<RecipeMaterial> recipeMaterials;
+    @Transient
+    private Double recipePrice;
+
+    public Double getRecipePrice() {
+        if (recipeMaterials != null && !recipeMaterials.isEmpty()) {
+            AtomicReference<Double> price = new AtomicReference<>(0d);
+            recipeMaterials.forEach(recipeMaterial -> {
+                double quantity = recipeMaterial.getQuantity();
+                double unit_price = recipeMaterial.getMaterial().getUnitPrice().doubleValue();
+                double currency = recipeMaterial.getMaterial().getCurrency().getCurrencyRate().doubleValue();
+                price.updateAndGet(v -> v + quantity * unit_price * currency);
+            });
+            return price.get();
+        }
+        return 0d;
+    }
 
     @Override
     public boolean equals(Object o) {

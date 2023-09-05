@@ -131,6 +131,7 @@ public class HyperMethod {
                     LinkedHashMap<String, ?> nRow = (LinkedHashMap) row;
                     String id = (String) nRow.get("recipe_id");
                     String name = (String) nRow.get("recipe_name");
+                    Double price = (Double) nRow.get("recipe_price");
                     ArrayList materialList = (ArrayList) nRow.get("materials");
                     List<RecipeMaterial> material_list = new ArrayList<>();
                     for (Object mRow : materialList) {
@@ -145,6 +146,7 @@ public class HyperMethod {
                             .id(id)
                             .name(name)
                             .materials(material_list)
+                            .price(price)
                             .build();
                     recipes.add(recipe);
                 }

@@ -2,9 +2,8 @@ package org.softtech.internship.backend.inventory.model.recipe_material;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.softtech.internship.backend.inventory.model.material.Material;
 import org.softtech.internship.backend.inventory.model.recipe.Recipe;
 
@@ -12,8 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "recipe_material")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecipeMaterial {

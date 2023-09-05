@@ -17,4 +17,5 @@ public class RecipeViewDTO {
     private UUID recipe_id;
     private String recipe_name;
     private List<RecipeMaterialGeneralDTO> materials;
+    private Double recipe_price;
 }

@@ -41,6 +41,7 @@ public class RecipeMapper {
                 .recipe_id(newRecipe.getRecipeId())
                 .recipe_name(newRecipe.getRecipeName())
                 .materials(generalDTOList)
+                .recipe_price(newRecipe.getRecipePrice())
                 .build();
     }
 

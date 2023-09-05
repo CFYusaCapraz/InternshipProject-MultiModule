@@ -64,35 +64,16 @@ public class RecipeTableModel extends AbstractTableModel {
                         .collect(Collectors.joining(", "));
             }
             case 2 -> {
-                AtomicReference<Double> price = new AtomicReference<>(0.0d);
-                recipe.getMaterials()
-                        .forEach(recipeMaterial -> {
-                            String materialId = recipeMaterial.getMaterial_id();
-                            AtomicReference<Material> m = new AtomicReference<>(new Material());
-                            AtomicReference<Currency> c = new AtomicReference<>(new Currency());
-                            materialList.stream()
-                                    .filter((material) -> material.getId().equals(materialId))
-                                    .findFirst()
-                                    .ifPresent(m::set);
-                            Double unitPrice = m.get().getUnit_price();
-                            String currencyName = m.get().getCurrency_name();
-                            currencyList.stream()
-                                    .filter(currency -> currency.getName().equals(currencyName))
-                                    .findFirst()
-                                    .ifPresent(c::set);
-                            Double rate = c.get().getRate();
-                            price.updateAndGet(v -> v + (unitPrice * rate * recipeMaterial.getQuantity()));
-
-                        });
+                Double recipePrice = recipe.getPrice();
                 DecimalFormat df = new DecimalFormat("#,##0.00");
 
                 // If the number is greater than or equal to 1000, use the thousands separator
-                if (Math.abs(price.get()) >= 1000) {
-                    return df.format(price.get()) + " TL";
+                if (Math.abs(recipePrice) >= 1000) {
+                    return df.format(recipePrice) + " TL";
                 } else {
                     // If the number is less than 1000, format it without the thousands separator
                     df.applyPattern("0.00");
-                    return df.format(price.get()) + " TL";
+                    return df.format(recipePrice) + " TL";
                 }
             }
 
