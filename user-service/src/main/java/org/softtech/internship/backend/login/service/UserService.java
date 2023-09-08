@@ -121,7 +121,7 @@ public class UserService {
             APIResponse<Map<String, Object>> body = APIResponse.error("No JWT Token found!");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
         } catch (Exception e) {
-            APIResponse<?> body = APIResponse.error("Error occurred while registering!");
+            APIResponse<?> body = APIResponse.error("Error occurred while logging out!");
             return ResponseEntity.internalServerError().body(body);
         }
     }
