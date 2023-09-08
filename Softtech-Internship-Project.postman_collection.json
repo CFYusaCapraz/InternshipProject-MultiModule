@@ -1,0 +1,907 @@
+{
+	"info": {
+		"_postman_id": "aa6bc509-f4af-4322-a756-e66268ceadf8",
+		"name": "Softtech Internship Project",
+		"description": "The Postman Collection hold the available endpoints of the implemented services of SOFTTECH's internship project's back-end application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25236233"
+	},
+	"item": [
+		{
+			"name": "User-Service",
+			"item": [
+				{
+					"name": "Login Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"<Enter your username>\",\n    \"password\":\"<Enter your password>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{base_url}}/{{user_service_prefix}}/login",
+							"protocol": "http",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_service_prefix}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"<Enter your username>\",\n    \"password\":\"<Enter your password>\",\n    \"role\":\"<Enter the role of the user>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{base_url}}/{{user_service_prefix}}/register",
+							"protocol": "http",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_service_prefix}}",
+								"register"
+							]
+						},
+						"description": "The possible roles for the user are:\n\n- ADMIN\n    \n- USER"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{base_url}}/{{user_service_prefix}}/all-users",
+							"protocol": "http",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_service_prefix}}",
+								"all-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{base_url}}/{{user_service_prefix}}/logout",
+							"protocol": "http",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_service_prefix}}",
+								"logout"
+							]
+						},
+						"description": "This request does not require any data in the body because it extracts the token from the request headers."
+					},
+					"response": []
+				}
+			],
+			"description": "This folder stores the endpoints of the user microservice. These endpoints do not require authorization.",
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Inventory-Service",
+			"item": [
+				{
+					"name": "Materials",
+					"item": [
+						{
+							"name": "Get All Materials",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Material by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter material ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Material by Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials?name=material_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "material_name",
+											"description": "<Enter material name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Material by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials/delete?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter material ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Material by Name",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials/delete?name=material_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "material_name",
+											"description": "<Enter material name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Material",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"material_name\": \"material_name\",\n    \"unit_price\": 12.34,\n    \"currency_name\": {{default_currency}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials/create",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials",
+										"create"
+									]
+								},
+								"description": "All of the fields inside the body are required."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Material Information",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"material_name\": \"material_name\",\n    \"unit_price\": 12.34,\n    \"currency_name\": {{default_currency}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/materials/update?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"materials",
+										"update"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter material ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work.\n\nOnly provide the fields you want to update."
+							},
+							"response": []
+						}
+					],
+					"description": "This folder stores the endpoints of the material service. These endpoints requires authorization."
+				},
+				{
+					"name": "Recipes",
+					"item": [
+						{
+							"name": "Get All Recipes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recipe by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter recipe ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Recipe by Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes?name=recipe_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "recipe_name",
+											"description": "<Enter recipe name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Recipe by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes/delete?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter recipe ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Recipe by Name",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes/delete?name=recipe_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "recipe_name",
+											"description": "<Enter recipe name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Recipe",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"recipe_name\": \"recipe_name\",\n    \"material_id_list\": [\n        {\n            \"material_id\": \"material_id1\",\n            \"quantity\": 1.54\n        },\n        {\n            \"material_id\": \"material_id2\",\n            \"quantity\": 2.54\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes/create",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes",
+										"create"
+									]
+								},
+								"description": "All of the fields inside the body are required.\n\nThere must be atleast 1 material information in the \\`material_id_list\\` array."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Recipe Information",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"recipe_name\": \"recipe_name\",\n    \"material_id_list\": [\n        {\n            \"material_id\": \"material_id1\",\n            \"quantity\": 1.54\n        },\n        {\n            \"material_id\": \"material_id2\",\n            \"quantity\": 2.54\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/recipes/update?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"recipes",
+										"update"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter material ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work.\n\nOnly provide the fields you want to update."
+							},
+							"response": []
+						}
+					],
+					"description": "This folder stores the endpoints of the recipe service. These endpoints requires authorization."
+				},
+				{
+					"name": "Currency",
+					"item": [
+						{
+							"name": "Get All Currencies",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Currency by ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter currency ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Get Currency by Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currency?name=currency_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currency"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "currency_name",
+											"description": "<Enter currency name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Currency by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies/delete?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter currency ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Currency by Name",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies/delete?name=currency_name",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies",
+										"delete"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "currency_name",
+											"description": "<Enter currency name>"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create New Currency",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currency_name\": \"currency_name\",\n    \"currency_rate\": 12.34\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies/create",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies",
+										"create"
+									]
+								},
+								"description": "All of the fields inside the body are required."
+							},
+							"response": []
+						},
+						{
+							"name": "Update Currency Information",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currency_name\": \"currency_name\",\n    \"currency_rate\": 12.34\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies/update?id=11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies",
+										"update"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "11bf5b37-e0b8-42e0-8dcf-dc8c4aefc000",
+											"description": "<Enter currency ID (UUIDv4 syntax)>"
+										}
+									]
+								},
+								"description": "\\`id\\` parameter must be in UUID v4 format, otherwise it will not work.\n\nOnly provide the fields you want to update"
+							},
+							"response": []
+						},
+						{
+							"name": "Load Live Currency Data",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/{{inventory_service_prefix}}/currencies/refresh",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"{{inventory_service_prefix}}",
+										"currencies",
+										"refresh"
+									]
+								},
+								"description": "This request will update the currency information from an external API to get _Live_ data."
+							},
+							"response": []
+						}
+					],
+					"description": "This folder stores the endpoints of the currency service. These endpoints requires authorization."
+				}
+			],
+			"description": "This folder stores the endpoints of the inventory microservice. These endpoints requires authorization.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const server_ip = pm.collectionVariables.get(\"server_ip\");",
+							"const server_port = pm.collectionVariables.get(\"server_port\");",
+							"const prefix = pm.collectionVariables.get(\"user_service_prefix\");",
+							"const url = \"http://\".concat(server_ip,\":\",server_port,\"/\",prefix,\"/login\")",
+							"",
+							"const default_admin_user = pm.collectionVariables.get(\"default_admin_username\");",
+							"const default_admin_pass = pm.collectionVariables.get(\"default_admin_password\");",
+							"",
+							"const req = {",
+							"  url: url,",
+							"  method: 'POST',",
+							"  header: {",
+							"    'accept': '*/*',",
+							"    'Content-Type': 'application/json',",
+							"  },",
+							"  body: {",
+							"    mode: 'raw',",
+							"    raw: JSON.stringify({",
+							"      \"username\": default_admin_user,",
+							"      \"password\": default_admin_pass",
+							"    }),",
+							"  },",
+							"};",
+							"",
+							"pm.sendRequest(req, function (err, response) {",
+							"  if (err) {",
+							"    console.error(err);",
+							"  } else {",
+							"    const body = response.json();",
+							"    const token = body.data.token;",
+							"    pm.collectionVariables.set(\"jwt_token\", token);",
+							"  }",
+							"});",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": "<This value will be generated from user service's login and register endpoints>",
+			"type": "string"
+		},
+		{
+			"key": "server_ip",
+			"value": "localhost",
+			"type": "string"
+		},
+		{
+			"key": "server_port",
+			"value": "8080",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "user_service_prefix",
+			"value": "api/user"
+		},
+		{
+			"key": "default_admin_username",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "default_admin_password",
+			"value": "admin",
+			"type": "string"
+		},
+		{
+			"key": "default_user_role",
+			"value": "ADMIN",
+			"type": "string"
+		},
+		{
+			"key": "inventory_service_prefix",
+			"value": "api/inventory",
+			"type": "string"
+		},
+		{
+			"key": "default_currency",
+			"value": "USD",
+			"type": "string"
+		}
+	]
+}
